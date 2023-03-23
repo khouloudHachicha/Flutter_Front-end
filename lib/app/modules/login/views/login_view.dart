@@ -17,65 +17,63 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: SingleChildScrollView(
-         physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const MainBackground(text: 'Login',),
-              const SizedBox(
-                height: 100,
-              ),
-                const CustomSizedBoxTextFormField(
-                labelText: 'Username',
-                prefixIconData: Icons.person_outline_outlined,
-                height: 50,
-                //validator: controller.
-               ),
-              const SizedBox(
-                height: 20,
-              ),
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const MainBackground(text: 'Login',),
+            const SizedBox(
+              height: 100,
+            ),
               const CustomSizedBoxTextFormField(
-                labelText: 'Password',
-                prefixIconData: Icons.password,
-                height: 50,
-                //validator: controller.
-                //   suffixIcon: IconButton(
-                //       onPressed: null,
-                //       icon: Icon(Icons.remove_red_eye_sharp)
-                //   ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text("Don't have an  account"),
-                  TextButton(
-                    onPressed: () {
-                      Get.off(() => SignUpView(), binding: SignUpBinding());
-                    },
-                    child: Text(
-                      "create new account?",
-                      style: TextStyle(color: Colours.navy),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40,),
-              Center(
-                child: MyElevatedButton(
-                  text: 'LOGIN',
+              labelText: 'Username',
+              prefixIconData: Icons.person_outline_outlined,
+              height: 50,
+              //validator: controller.
+             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const CustomSizedBoxTextFormField(
+              labelText: 'Password',
+              prefixIconData: Icons.password,
+              height: 50,
+              //validator: controller.
+              //   suffixIcon: IconButton(
+              //       onPressed: null,
+              //       icon: Icon(Icons.remove_red_eye_sharp)
+              //   ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text("Don't have an  account"),
+                TextButton(
                   onPressed: () {
-                    Get.off(() => HomePageView(), binding: HomePageBinding());
-                    if(_formKey.currentState!.validate()){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content:
-                              Text('Succefully logged in')));
-                    }
+                    Get.off(() => SignUpView(), binding: SignUpBinding());
                   },
+                  child: Text(
+                    "create new account?",
+                    style: TextStyle(color: Colours.navy),
+                  ),
                 ),
+              ],
+            ),
+            const SizedBox(height: 40,),
+            Center(
+              child: MyElevatedButton(
+                text: 'LOGIN',
+                onPressed: () {
+                  Get.off(() => HomePageView(), binding: HomePageBinding());
+                  // if(_formKey.currentState!.validate()){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(content:
+                  //           Text('Succefully logged in')));
+                  // }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

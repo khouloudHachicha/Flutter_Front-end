@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../Facture_list/views/facture_list_view.dart';
+import '../../Settings/views/settings_view.dart';
+import '../../profile/views/profile_view.dart';
 import '../../widgets/drawer.dart';
 import '../controllers/home_page_controller.dart';
 
@@ -14,25 +17,28 @@ class HomePageView extends GetView<HomePageController> {
     return GetBuilder<HomePageController>(
       builder: (context) {
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colours.navy,
+            title: Text("Scan"),
           ),
-             drawer: DrawerCustom(),
           body: SafeArea(
             child: IndexedStack(
               index: controller.tabIndex,
               children:  [
-                // ProfileView(),
-                // ProfileView(),
-                // LoginView(),
+                FactureListView(imagePath: '',),
                GestureDetector(
-                 child: Image.asset(
-                   'assets/scanner.gif',
+                 child: Center(
+                   child: Image.asset(
+                     'assets/scanner.gif',
+                   ),
                  ),
                  onTap: () {
                    controller.getImage(ImageSource.camera);
                    },
-               )
+               ),
+                SettingsView()
+                // page settings
               ],
             ),
           ),
@@ -42,9 +48,9 @@ class HomePageView extends GetView<HomePageController> {
              color: Colours.navy,
              animationDuration: const Duration(milliseconds:90 ),
              items: const [
-               Icon(Icons.history, size: 30,color: Colors.white,),
-               Icon(Icons.home, size: 30,color: Colors.white,),
-               Icon(Icons.account_circle, size: 30,color: Colors.white,),
+               Icon(Icons.inventory_outlined, size: 30,color: Colors.white,),
+               Icon(Icons.document_scanner_rounded, size: 30,color: Colors.white,),
+               Icon(Icons.settings, size: 30,color: Colors.white,),
              ],
             onTap:
             controller.changeTabIndex,

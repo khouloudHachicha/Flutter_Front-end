@@ -14,49 +14,51 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap:() {
-          FocusScope.of(context).unfocus();
-        },
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Background(
-              text: 'Profile',
-              onpressed:(){
-        Get.off(()=>const HomePageView(),binding: HomePageBinding());
-        },
-        ),
-              const MyTextField(
-                label: 'Username',
-              ),
-              const SizedBox(height: 20),
-              const MyTextField(
-                label: 'Email',
-              ),
-              const SizedBox(height: 20),
-              const MyTextField(
-                label: 'phone',
-              ),
-              const SizedBox(height: 20),
-              const MyTextField(
-                label: 'Password',
-              ),
-              const SizedBox(height: 20),
-              const SizedBox(height: 40,),
-              Center(
-                child: MyElevatedButton(
-                  text: 'Edit',
-                  onPressed: () {
-                    Get.off(() => const HomePageView(), binding: HomePageBinding());
-                  },
+      body: SingleChildScrollView(
+        child: GestureDetector(
+          onTap:() {
+            FocusScope.of(context).unfocus();
+          },
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Background(
+                text: 'Profile',
+                onpressed:(){
+          Get.off(()=>const HomePageView(),binding: HomePageBinding());
+          },
+          ),
+                const MyTextField(
+                  label: 'Username',
                 ),
-              ),
+                const SizedBox(height: 20),
+                const MyTextField(
+                  label: 'Email',
+                ),
+                const SizedBox(height: 20),
+                const MyTextField(
+                  label: 'phone',
+                ),
+                const SizedBox(height: 20),
+                const MyTextField(
+                  label: 'Password',
+                ),
+                const SizedBox(height: 20),
+                const SizedBox(height: 40,),
+                Center(
+                  child: MyElevatedButton(
+                    text: 'Edit',
+                    onPressed: () {
+                      Get.off(() => const HomePageView(), binding: HomePageBinding());
+                    },
+                  ),
+                ),
     ],
-              ),
-        ),
-        ),
+                ),
+          ),
+          ),
+      ),
     );
   }
 }

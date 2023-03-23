@@ -10,6 +10,8 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const CAMERA = _Paths.CAMERA;
   static const USERS_LIST = _Paths.USERS_LIST;
+  static const FACTURE_LIST = _Paths.FACTURE_LIST;
+  static const SETTINGS = _Paths.SETTINGS;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const CAMERA = '/camera';
   static const USERS_LIST = '/users-list';
+  static const FACTURE_LIST = '/facture-list';
+  static const SETTINGS = '/settings';
 }

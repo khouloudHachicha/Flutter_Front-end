@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../modules/Facture_list/bindings/facture_list_binding.dart';
+import '../modules/Facture_list/views/facture_list_view.dart';
+import '../modules/Settings/bindings/settings_binding.dart';
+import '../modules/Settings/views/settings_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/homePage/bindings/home_page_binding.dart';
@@ -39,18 +43,30 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOME_PAGE,
-      page: () => HomePageView(),
+      page: () => const HomePageView(),
       binding: HomePageBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => ProfileView(),
+      page: () => const ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
       name: _Paths.USERS_LIST,
-      page: () =>  UsersListView(),
+      page: () => const UsersListView(),
       binding: UsersListBinding(),
+    ),
+    GetPage(
+      name: _Paths.FACTURE_LIST,
+      page: () => const FactureListView(
+        imagePath: '',
+      ),
+      binding: FactureListBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTINGS,
+      page: () => const SettingsView(),
+      binding: SettingsBinding(),
     ),
   ];
 }

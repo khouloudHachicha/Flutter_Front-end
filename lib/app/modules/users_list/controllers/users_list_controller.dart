@@ -5,17 +5,16 @@ import '../../../Services/UserService.dart';
 import '../../../data/Models/User.dart';
 
 class UsersListController extends GetxController with StateMixin {
-  Dio dio = Dio(BaseOptions());
-  RxList<User> user = <User>[].obs;
+  final UserService _userService = UserService();
+  final RxList<User> users = RxList([]);
   final count = 0.obs;
   @override
 
   void onInit() async {
+    fetchUsers();
     super.onInit();
-    change(null, status: RxStatus.success());
-    await getAllUser();
-  }
 
+  }
   @override
   void onReady() {
     super.onReady();
@@ -25,16 +24,17 @@ class UsersListController extends GetxController with StateMixin {
   void onClose() {
     super.onClose();
   }
-  getAllUser() async {
-    try {
-      BaseResponse response = await UserService(
-          GetIt.instance.get<DioConfiguration>().getDio())
-          .getAllUser();
-      user.value = (response.data as List).map((e) => User.fromJson(e)).toList();
 
+  Future<void> fetchUsers() async {
+    try {
+      final loadedUsers = await _userService.getUsers();
+      users.value = loadedUsers;
     } catch (e) {
-      print("error $e");
+      Get.snackbar(
+        'Error',
+        'Failed to load users',
+        duration: Duration(seconds: 3),
+      );
     }
   }
-
 }

@@ -11,14 +11,15 @@ class User {
     required this.cin,
     required this.phone,
     required this.email,
-    required this.password, required token,
+    //required this.password, required token,
   });
+
   int id;
   String username;
   String cin;
   String phone;
   String email;
-  String password;
+  // String password;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
@@ -26,7 +27,7 @@ class User {
     cin: json["cin"],
     phone: json["phone"],
     email: json["email"],
-    password: json["password"], token: null,
+    // password: json["password"], token: null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -35,6 +36,6 @@ class User {
     "cin": cin,
     "phone": phone,
     "email": email,
-    "password": password,
+    // "password": password,
   };
 }
