@@ -9,10 +9,8 @@ import 'app/routes/app_pages.dart';
 
 void main() async{
   await GetStorage.init();
-  final controller = Get.put(SettingsController());
   runApp(
     GetMaterialApp(
-      theme: controller.theme,
       debugShowCheckedModeBanner: false,
 
       title: "Application",
@@ -21,3 +19,20 @@ void main() async{
     ),
   );
 }
+ThemeData darkTheme = ThemeData(
+    accentColor: Colors.red,
+    brightness: Brightness.dark,
+    primaryColor: Colors.amber,
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.amber,
+      disabledColor: Colors.grey,
+    ));
+
+ThemeData lightTheme = ThemeData(
+    accentColor: Colors.pink,
+    brightness: Brightness.light,
+    primaryColor: Colors.blue,
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.blue,
+      disabledColor: Colors.grey,
+    ));
