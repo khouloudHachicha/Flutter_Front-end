@@ -15,13 +15,21 @@ class FactureListView extends GetView<FactureListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('List des factures'),
-        backgroundColor: Colours.navy,
-        elevation: 1,
-    ),
-      body: Center(
-        child: Image.file(File(imagePath)),
+      appBar:  AppBar(title: Text('fee'),),
+      body:
+        ListView.builder(
+        itemCount: imagePath.length,
+        itemBuilder: (BuildContext context, int index) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Image.asset(
+                imagePath[index],
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        },
       )
     );
   }

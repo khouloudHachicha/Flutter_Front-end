@@ -1,13 +1,20 @@
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../data/Models/User.dart';
 
 class LoginController extends GetxController {
 
   var isPasswordHidden = true.obs;
   final Dio _dio = Dio();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _status = Rx<RxStatus>(RxStatus.empty());
+  RxStatus get status => _status.value;
+
+
 
 
   @override
@@ -48,4 +55,18 @@ class LoginController extends GetxController {
       return null;
     }
   }
-}
+  // Future<void> onLogin() async {
+  //   if (_isValid()) {
+  //     _status.value = RxStatus.loading();
+  //     try {
+  //       //Perform login logic here
+  //       M.showToast('Login successful', status: SnackBarStatus.success);
+  //       _status.value = RxStatus.success();
+  //     } catch (e) {
+  //       e.printError();
+  //       M.showToast(e.toString(), status: SnackBarStatus.error);
+  //       _status.value = RxStatus.error(e.toString());
+  //     }
+  //   }
+
+  }

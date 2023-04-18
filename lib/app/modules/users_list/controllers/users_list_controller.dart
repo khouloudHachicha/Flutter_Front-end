@@ -13,7 +13,6 @@ class UsersListController extends GetxController with StateMixin {
   void onInit() async {
     fetchUsers();
     super.onInit();
-
   }
   @override
   void onReady() {

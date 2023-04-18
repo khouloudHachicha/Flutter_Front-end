@@ -11,7 +11,6 @@ import '../../widgets/text_field.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,8 @@ class LoginView extends GetView<LoginController> {
             const SizedBox(
               height: 100,
             ),
-              const CustomSizedBoxTextFormField(
+            CustomSizedBoxTextFormField(
+              controller: controller.usernameController,
               labelText: 'Username',
               prefixIconData: Icons.person_outline_outlined,
               height: 50,
@@ -34,15 +34,15 @@ class LoginView extends GetView<LoginController> {
             const SizedBox(
               height: 20,
             ),
-            const CustomSizedBoxTextFormField(
+             CustomSizedBoxTextFormField(
+              controller: controller.passwordController,
               labelText: 'Password',
               prefixIconData: Icons.password,
               height: 50,
-              //validator: controller.
-              //   suffixIcon: IconButton(
-              //       onPressed: null,
-              //       icon: Icon(Icons.remove_red_eye_sharp)
-              //   ),
+                // suffixIcon: IconButton(
+                //     onPressed: null,
+                //     icon: Icon(Icons.remove_red_eye_sharp)
+                // ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

@@ -8,7 +8,6 @@ import '../../widgets/text_field.dart';
 import '../controllers/sign_up_controller.dart';
 
 class SignUpView extends GetView<SignUpController> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +15,7 @@ class SignUpView extends GetView<SignUpController> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          key: _formKey,
+          key: controller.formKey,
           children: [
             Background(
               text: 'Sign Up',
@@ -31,33 +30,28 @@ class SignUpView extends GetView<SignUpController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     const CustomSizedBoxTextFormField(
+                      CustomSizedBoxTextFormField(
                        height: 50,
+                       controller: controller.usernameController,
                        labelText: "Username",
                        prefixIconData: Icons.person_outline_outlined,
-                       //validator: controller.,
+                       //validator: controller.isValidUsername()
                      ),
                     SizedBox(
                       height: 20.0,),
-                    const CustomSizedBoxTextFormField(
+                     CustomSizedBoxTextFormField(
                       height: 50,
+                      controller: controller.emailController,
                       labelText: "Email",
                       prefixIconData: Icons.email_outlined,
-                      //validator: controller.,
+                       //validator: controller.isValidEmail(),
                     ),
                     const SizedBox(
                       height: 20.0,
                     ),
-                    // DropdownButton(
-                    //
-                    //   items: list.map((item) => DropdownMenuItem(
-                    //     value: item,
-                    //       child: Text(item,style:TextStyle(fontSize: 25)
-                    //         ,)
-                    //   )), onChanged: (Object? value) {  },
-                    // ),
-                    const CustomSizedBoxTextFormField(
+                     CustomSizedBoxTextFormField(
                       height: 50,
+                      controller: controller.phoneController,
                       labelText: "phone",
                       prefixIconData: Icons.phone,
                       //validator: controller.,
@@ -68,7 +62,7 @@ class SignUpView extends GetView<SignUpController> {
                     SizedBox(
                       height: 50,
                       child: TextFormField(
-                        // controller.length();
+                        controller: controller.passwordController,
                         obscureText: controller.isPasswordHidden.value,
                         decoration: InputDecoration(
                           hintText: "password",
@@ -90,7 +84,7 @@ class SignUpView extends GetView<SignUpController> {
                     SizedBox(
                       height: 50,
                       child: TextFormField(
-                        //controller.length();
+                        controller: controller.passwordController,
                         obscureText: controller.isPasswordHidden.value,
                         decoration: InputDecoration(
                           hintText: "Confirm password",
@@ -111,7 +105,8 @@ class SignUpView extends GetView<SignUpController> {
                       child: MyElevatedButton(
                         text: 'Sign up',
                         onPressed: () {
-                          Get.off(() => LoginView(), binding: LoginBinding());
+                          //Get.off(() => LoginView(), binding: LoginBinding());
+                          controller.register();
                         },
                       ),
                     ),

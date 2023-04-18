@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../controllers/home_controller.dart';
+import '../controllers/splash_screen_controller.dart';
 
-class HomeBinding extends Bindings {
+class SplashScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeController>(

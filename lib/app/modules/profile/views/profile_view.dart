@@ -38,6 +38,10 @@ class ProfileView extends GetView<ProfileController> {
                 ),
                 const SizedBox(height: 20),
                 const MyTextField(
+                  label: 'Cin',
+                ),
+                const SizedBox(height: 20),
+                const MyTextField(
                   label: 'phone',
                 ),
                 const SizedBox(height: 20),

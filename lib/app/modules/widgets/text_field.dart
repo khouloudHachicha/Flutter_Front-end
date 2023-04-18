@@ -24,6 +24,7 @@ class CustomSizedBoxTextFormField extends StatelessWidget {
   final IconData prefixIconData;
   final double height;
   final Icon? suffixIcon;
+  final TextEditingController? controller;
 
   const CustomSizedBoxTextFormField({
     Key? key,
@@ -32,6 +33,7 @@ class CustomSizedBoxTextFormField extends StatelessWidget {
     required this.height,
     this.validator,
     this.suffixIcon,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class CustomSizedBoxTextFormField extends StatelessWidget {
         height: height,
         child: TextFormField(
           validator: validator,
+          controller: controller,
           decoration: InputDecoration(
             focusColor: Colors.blueAccent,
             fillColor: Colors.blueAccent,

@@ -5,78 +5,81 @@ import 'package:get/get.dart';
 
 import '../../login/bindings/login_binding.dart';
 import '../../login/views/login_view.dart';
+import '../../profile/bindings/profile_binding.dart';
 import '../../profile/views/profile_view.dart';
+import '../../widgets/setting_group.dart';
 import '../controllers/settings_controller.dart';
 
+
 class SettingsView extends GetView<SettingsController> {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Expanded(
-          child: SizedBox(
-            height: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Account',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'MyFont',
-                    color: Colours.navy,letterSpacing: 1.5),
-                ),
-                ListTile(
-                  title: Text('Edit Profile',style: TextStyle(
-                    fontSize: 15,
-                    color: Colours.slateBlue,)),
-                  onTap: () {
-                    Get.to(ProfileView());
-                  },
-                ),
-                Divider(),
-                Text(
-                  'Appearance',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'MyFont',
-                    color: Colours.navy,
-                      letterSpacing: 1.5),
-                ),
-                ListTile(
-                  title: Text('Dark Mode',style: TextStyle(
-                    fontSize: 15,
-                    color: Colours.slateBlue,)),
-                    // trailing: Obx(() => SwitchListTile(
-                    //   title: Text('Dark Mode'),
-                    //   value: controller.isDarkMode.value,
-                    //   onChanged: (value) => controller.isDarkMode.value = value,
-                    // )),
+      final controller = Get.put(SettingsController());
+      return Scaffold(
+        appBar: AppBar(title: Text('hgvgv')),
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.all(24),
+            children: [
+              const SettingsGroup(
+                  title: "ACCOUNT",
+                  children: [
+                    ListTile(
+                      title: Text("Username",
+                        style: TextStyle(color: Colors.white, fontSize: 22),),
+                      subtitle: Text('Email',
+                        style: TextStyle(color: Colors.white, fontSize: 15),),
+                      leading: Icon(
+                          Icons.account_circle, color: Colors.white, size: 50),
                     ),
-                Divider(),
-                TextButton(
-                  child: Text('Logout',style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'MyFont',
-                    color: Colours.navy,
-                      letterSpacing: 1.5),),
-                  onPressed: () {
-                    Get.off(() => LoginView(), binding: LoginBinding());
-                  },
-                ),
-              ],
-            ),
+                  ]
+              ),
+              SettingsGroup(
+                  title: "APPERENCE",
+                  children: [
+                    SwitchListTile(
+                      title: const Text(
+                        "Dark mode", style: TextStyle(color: Colors.white),),
+                      secondary: const Icon(Icons.dark_mode, color: Colors.white,),
+                      onChanged:
+                      controller.changeTheme,
+                      value: controller.isDark,
+                    )
+                  ]
+              ),
+              SettingsGroup(
+                title: "GENERAL",
+                children: [
+                  ListTile(
+                    title: const Text("Account Settings",
+                      style: TextStyle(color: Colors.white),),
+                    leading: const Icon(Icons.settings, color: Colors.white,),
+                    onTap: (){
+                      Get.off(() => const ProfileView(), binding: ProfileBinding());
+                      },
+                  ),
+                  const ListTile(
+                    title: Text(
+                      "Delete Account", style: TextStyle(color: Colors.white),),
+                    leading: Icon(Icons.delete, color: Colors.white,),
+                  ),
+                  ListTile(
+                    title: const Text(
+                      "Logout", style: TextStyle(color: Colors.white),),
+                    leading: const Icon(Icons.logout, color: Colors.white,),
+                    onTap: () {
+                      Get.off(() => LoginView(), binding: LoginBinding());
+                    },
+                  ),
+                  const SizedBox(height: 32,),
+                ],
+              )
+            ],
           ),
         ),
-      ),
-    );
+      );
   }
+
 }
