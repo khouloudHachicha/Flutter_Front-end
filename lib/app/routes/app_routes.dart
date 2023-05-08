@@ -12,6 +12,7 @@ abstract class Routes {
   static const USERS_LIST = _Paths.USERS_LIST;
   static const FACTURE_LIST = _Paths.FACTURE_LIST;
   static const SETTINGS = _Paths.SETTINGS;
+  static const CONSULTER_FACTURE = _Paths.CONSULTER_FACTURE;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const USERS_LIST = '/users-list';
   static const FACTURE_LIST = '/facture-list';
   static const SETTINGS = '/settings';
+  static const CONSULTER_FACTURE = '/consulter-facture';
 }

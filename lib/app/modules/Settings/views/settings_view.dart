@@ -2,31 +2,40 @@ import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:ocr_projet_pfe/app/data/Models/User.dart';
 
 import '../../login/bindings/login_binding.dart';
 import '../../login/views/login_view.dart';
 import '../../profile/bindings/profile_binding.dart';
 import '../../profile/views/profile_view.dart';
+import '../../sign_up/controllers/sign_up_controller.dart';
+import '../../users_list/bindings/users_list_binding.dart';
+import '../../users_list/views/users_list_view.dart';
 import '../../widgets/setting_group.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
-  const SettingsView({super.key});
-
+  SignUpController signUpController=Get.find();
+   SettingsView({super.key});
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SettingsController());
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('Settings Page'))),
+      appBar: AppBar(backgroundColor: Colors.white,
+          title: Center(
+              child: Text(
+                  'Settings Page',
+                  style: TextStyle(
+                      color: Colours.navy))
+          )),
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           padding: const EdgeInsets.all(24),
           children: [
-            const SettingsGroup(title: "ACCOUNT", children: [
+             SettingsGroup(title: "ACCOUNT", children: [
               ListTile(
-                title: Text(
-                  "Username",
+                title: Text("${signUpController.usernameController}",
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 ),
                 subtitle: Text(
@@ -60,49 +69,65 @@ class SettingsView extends GetView<SettingsController> {
                 );
               })
             ]),
-            SettingsGroup(
-              title: "GENERAL",
-              children: [
-                ListTile(
-                  title: const Text(
-                    "Account Settings",
-                    style: TextStyle(color: Colors.white),
+            Center(
+              child: SettingsGroup(
+                title: "GENERAL",
+                children: [
+                  ListTile(
+                    title: const Text(
+                      "Edit account",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    leading: const Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Get.off(() => const ProfileView(), binding: ProfileBinding());
+                    },
                   ),
-                  leading: const Icon(
-                    Icons.settings,
-                    color: Colors.white,
+                  ListTile(
+                    title: const Text(
+                      "User list",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    leading: const Icon(
+                      Icons.supervised_user_circle_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Get.off(() =>  const UsersListView(), binding: UsersListBinding());
+                    },
                   ),
-                  onTap: () {
-                    Get.off(() => const ProfileView(), binding: ProfileBinding());
-                  },
-                ),
-                const ListTile(
-                  title: Text(
-                    "Delete Account",
-                    style: TextStyle(color: Colors.white),
+                  ListTile(
+                    title: const Text(
+                      "Invoice list",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    leading: const Icon(
+                      Icons.supervised_user_circle_rounded,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Get.off(() =>  const UsersListView(), binding: UsersListBinding());
+                    },
                   ),
-                  leading: Icon(
-                    Icons.delete,
-                    color: Colors.white,
+                  ListTile(
+                    title: const Text(
+                      "Logout",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    leading: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Get.off(() => LoginView(), binding: LoginBinding());
+                    },
                   ),
-                ),
-                ListTile(
-                  title: const Text(
-                    "Logout",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  leading: const Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                  onTap: () {
-                    Get.off(() => LoginView(), binding: LoginBinding());
-                  },
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-              ],
+
+                ],
+              ),
             )
           ],
         ),

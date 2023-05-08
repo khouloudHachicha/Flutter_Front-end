@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/Consulter_Facture/bindings/consulter_facture_binding.dart';
+import '../modules/Consulter_Facture/views/consulter_facture_view.dart';
 import '../modules/Facture_list/bindings/facture_list_binding.dart';
 import '../modules/Facture_list/views/facture_list_view.dart';
 import '../modules/Settings/bindings/settings_binding.dart';
@@ -65,8 +67,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SETTINGS,
-      page: () =>  SettingsView(),
+      page: () => SettingsView(),
       binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONSULTER_FACTURE,
+      page: () => const ConsulterFactureView(),
+      binding: ConsulterFactureBinding(),
     ),
   ];
 }

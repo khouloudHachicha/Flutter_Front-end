@@ -2,13 +2,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ocr_projet_pfe/app/modules/homePage/bindings/home_page_binding.dart';
+import 'package:ocr_projet_pfe/app/modules/homePage/views/home_page_view.dart';
 import '../../../data/Models/User.dart';
 
 class LoginController extends GetxController {
 
   var isPasswordHidden = true.obs;
   final Dio _dio = Dio();
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _status = Rx<RxStatus>(RxStatus.empty());
@@ -22,19 +24,36 @@ class LoginController extends GetxController {
     super.onInit();
   }
 
-  Future<User> login(String username, String password) async {
+  Future<void> login() async {
     try {
-      var response = await _dio.post(
-        'http://192.168.137.1/users',
-        data: {
-          'username': username,
-          'password': password
-        },
-        queryParameters: {'apikey': 'YOUR_API_KEY'},
-      );
-      return User.fromJson(response.data);
-    } on DioError catch (e) {
-      return e.response!.data;
+      var dio = Dio();
+      dio.options.headers = {'Content-Type': 'application/json'};
+      var url = "http://192.168.137.1:54999/login";
+
+      Map<String, dynamic> body = {
+        'email': emailController.text.trim(),
+        'password': passwordController.text
+      };
+      final response = await dio.post(url, data: body);
+
+      if (response.statusCode == 200) {
+        emailController.clear();
+        passwordController.clear();
+        Get.off(() => HomePageView(),binding: HomePageBinding());
+      } else {
+        throw response.data["message"] ?? "Unknown Error Occured";
+      }
+    } catch (e) {
+      Get.back();
+      showDialog(
+          context: Get.context!,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text('Error X :'),
+              contentPadding: EdgeInsets.all(20),
+              children: [Text(e.toString())],
+            );
+          });
     }
   }
 

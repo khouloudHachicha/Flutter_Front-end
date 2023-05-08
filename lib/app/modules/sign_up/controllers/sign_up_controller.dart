@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ocr_projet_pfe/app/modules/homePage/bindings/home_page_binding.dart';
+import 'package:ocr_projet_pfe/app/modules/homePage/views/home_page_view.dart';
 
 class SignUpController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -14,6 +18,7 @@ class SignUpController extends GetxController {
   final cinController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+  final RxBool isPasswordVisible = true.obs;
   RxnString errorText = RxnString(null);
   Rxn<Function()> submitFunc = Rxn<Function()>(null);
   var username = ''.obs;
@@ -41,28 +46,7 @@ class SignUpController extends GetxController {
     print(isvalid);
   }
 
-// Function validateForm(){
-//   if (_formKey.currentState.validate()) {
-//     bool isValidForm=_formKey.currentState.validate();
-//     print("isValidForm $isValidForm");
-//     if(!isValidForm){
-//       return;
-//     } else {
-//
-//     }
-  bool isValidUsername() {
-    if (username.value.isEmpty) {
-      Get.snackbar('Error', 'Username field cannot be empty');
-      return false;
-    } else if (username.value.length < 3) {
-      Get.snackbar('Error', 'Username should be at least 3 characters long');
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  bool isValidCin() {
+   isValidCin() {
     if (cin.value.isEmpty) {
       Get.snackbar('Error', 'CIN field cannot be empty');
       return false;
@@ -77,7 +61,7 @@ class SignUpController extends GetxController {
     }
   }
 
-  bool isValidPhone() {
+   isValidPhone() {
     if (phone.value.isEmpty) {
       Get.snackbar('Error', 'Phone number field cannot be empty');
       return false;
@@ -88,7 +72,7 @@ class SignUpController extends GetxController {
       return true;
     }
   }
-  bool isValidPassword() {
+   isValidPassword() {
     if (password.value.isEmpty) {
       Get.snackbar('Error', 'Password field cannot be empty');
       return false;
@@ -99,7 +83,7 @@ class SignUpController extends GetxController {
       return true;
     }
   }
-  bool isValidEmail() {
+   isValidEmail() {
     if (email.value.isEmpty) {
       Get.snackbar('Error', 'Email field cannot be empty');
       return false;
@@ -111,32 +95,50 @@ class SignUpController extends GetxController {
     }
   }
 
-String? emailvalidation(value) {
+ emailvalidation(value) {
   if (!GetUtils.isEmail(value!)) {
     return 'email is not valid';
   }
 }
   Future<void> register() async {
-    if (formKey.currentState!.validate()) {
-      final dio = Dio();
-      final response = await dio.post(
-        'http://192.168.137.1:65209/users',
-        data: {
-          'username': usernameController.text,
-          'email': emailController.text,
-          'cin': cinController.text,
-          'phone': phoneController.text,
-          'password': passwordController.text,
+    try {
+      var dio = Dio();
+      dio.options.headers = {'Content-Type': 'application/json'};
+      var url = "http://192.168.137.1:54999/register";
 
-        },
-      );
+      Map body = {
+        'username': usernameController.text,
+        'email': emailController.text.trim(),
+        'cin':cinController.text,
+        'phone':phoneController.text,
+        'password': passwordController.text,
+      };
+      final response = await dio.post(url, data: body);
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Registration successful!');
+        usernameController.clear();
+        emailController.clear();
+        cinController.clear();
+        phoneController.clear();
+        passwordController.clear();
+        Get.offAll(()=>HomePageView(),binding: HomePageBinding());
       } else {
-        Get.snackbar('Error', 'Registration failed');
+        throw jsonDecode(response.data)["message"] ?? "Unknown Error Occured";
       }
+    } catch (e) {
+      print(e);
+      Get.back();
+      showDialog(
+          context: Get.context!,
+          builder: (context) {
+            return SimpleDialog(
+              title: Text('Error'),
+              contentPadding: EdgeInsets.all(20),
+              children: [Text(e.toString())],
+            );
+          });
     }
   }
+
 
   Future<bool> Function() submitFunction() {
     return () async {
@@ -144,18 +146,8 @@ String? emailvalidation(value) {
       await Future.delayed(const Duration(seconds: 1), () => print('User account created'));
       return true;
     };
+
   }
-  // void validations(String val) async {
-  //   errorText.value = null; // reset validation errors to nothing
-  //   submitFunc.value = null; // disable submit while validating
-  //   if (val.isNotEmpty) {
-  //     if (lengthOK(val) && await available(val)) {
-  //       print('All validations passed, enable submit btn...');
-  //       submitFunc.value = submitFunction();
-  //       errorText.value = null;
-  //     }
-  //   }
-  // }
 
 
 }

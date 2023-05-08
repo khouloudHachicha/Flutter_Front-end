@@ -24,18 +24,21 @@ class UsersListView extends GetView<UsersListController> {
        }
       ),),
       body: SingleChildScrollView(
-        child: Obx(() => ListView.builder(
-          itemCount: controller.users.length,
-          itemBuilder: (context, index) {
-            final user = controller.users[index];
-            return Card(
-              child: ListTile(
-                title: Text(user.username),
-                subtitle: Text('CIN: ${user.cin}\nEmail: ${user.email}\nPhone: ${user.phone}'),
-              ),
-            );
-          },
-        )),
+        child: Container(
+          height: 300,
+          child: Obx(() => ListView.builder(
+            itemCount: controller.users.length,
+            itemBuilder: (context, index) {
+              final user = controller.users[index];
+              return Card(
+                child: ListTile(
+                  title: Text(user.username),
+                  subtitle: Text('CIN: ${user.cin}\nEmail: ${user.email}\nPhone: ${user.phone}'),
+                ),
+              );
+            },
+          )),
+        ),
       ),
     );
   }

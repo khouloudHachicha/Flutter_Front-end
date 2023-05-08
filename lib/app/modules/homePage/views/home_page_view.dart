@@ -1,14 +1,13 @@
+import 'dart:io';
+
 import 'package:colours/colours.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ocr_projet_pfe/app/modules/Settings/bindings/settings_binding.dart';
 import '../../Facture_list/views/facture_list_view.dart';
 import '../../Settings/views/settings_view.dart';
-import '../../profile/views/profile_view.dart';
-import '../../widgets/drawer.dart';
 import '../controllers/home_page_controller.dart';
 
 class HomePageView extends GetView<HomePageController> {
@@ -19,10 +18,6 @@ class HomePageView extends GetView<HomePageController> {
     return GetBuilder<HomePageController>(builder: (context) {
       return Scaffold(
         backgroundColor: Colors.white,
-        // appBar: AppBar(
-        //   backgroundColor: Colours.navy,
-        //   title: Text("Scan"),
-        // ),
         body: SafeArea(
           child: IndexedStack(
             index: controller.tabIndex,
@@ -32,12 +27,18 @@ class HomePageView extends GetView<HomePageController> {
               ),
               GestureDetector(
                 child: Center(
-                  child: Image.asset(
-                    'assets/scanner.gif',
+                  child: Obx(() => controller.selectedImagePath.value ==''
+                    ?Image.asset('assets/scanner.gif')
+                      : Column(
+                        children: [
+                          Image.file(File(controller.selectedImagePath.value)),
+                        ElevatedButton(onPressed:()async=>controller.sendImage(),child: Text("Send"))
+                        ],
+                      ),
                   ),
                 ),
-                onTap: () {
-                  controller.getImage(ImageSource.camera);
+                onTap: ()async {
+                  await controller.pickImage();
                 },
               ),
               SettingsView(),
@@ -45,6 +46,7 @@ class HomePageView extends GetView<HomePageController> {
           ),
         ),
         bottomNavigationBar: CurvedNavigationBar(
+          index: controller.tabIndex,
           height: 50,
           backgroundColor: Colors.white,
           color: Colours.navy,

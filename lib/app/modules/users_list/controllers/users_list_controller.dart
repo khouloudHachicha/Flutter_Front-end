@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import '../../../Services/UserService.dart';
 import '../../../data/Models/User.dart';
 
-class UsersListController extends GetxController with StateMixin {
+class UsersListController extends GetxController with StateMixin <List<String>>{
   final UserService _userService = UserService();
   final RxList<User> users = RxList([]);
   final count = 0.obs;

@@ -12,7 +12,7 @@ import '../../Facture_list/views/facture_list_view.dart';
 import '../views/home_page_view.dart';
 
 class HomePageController extends GetxController {
-  var tabIndex =1;
+  var tabIndex = 1;
   var selectedImagePath = ''.obs;
   var selectedImageSize = ''.obs;
 
@@ -33,48 +33,36 @@ class HomePageController extends GetxController {
 
   Future pickImage() async {
     final picker = ImagePicker();
-    String path = '';
-    try {
-      final getImage = await picker.pickImage(source: ImageSource.camera);
-      if (getImage != null) {
-        path = getImage.path;
-      } else {
-        path = '';
-      }
-    } catch (e) {
-      log(e.toString());
+    final getImage = await picker.pickImage(source: ImageSource.camera);
+    if (getImage != null) {
+      selectedImagePath.value = getImage.path;
+      selectedImageSize.value =
+          "${(File(selectedImagePath.value).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+    } else {
+      Get.snackbar("Error", " no image selected",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
     }
-    return path;
   }
 
-  void getImage(ImageSource imageSource) async {
-    final image = await ImagePicker().getImage(source: ImageSource.camera);
-    if (image != null) {
-      // final appDir = await getApplicationDocumentsDirectory();
-      // final fileName = '${DateTime.now()}.png';
-       // final savedImage = await File(image.path).copy(
-       //     '${appDir.path}/$fileName');
-      final imageBytes = await image.readAsBytes();
-       // final bytes = await File(savedImage.path).readAsBytes();
-      // Get.to(FactureListView(imagePath: savedImage.path));
-      final base64Image = base64Encode(imageBytes);
-      final dio = Dio();
-      final response = await dio.post(
-        'http://172.16.0.118:5000/scan',
-        data: {'image': base64Image},
-      );
-      if (response.statusCode == 200) {
-        Get.to(HomePageView(),binding: HomePageBinding());
-        //Get.to(FactureListView(imagePath: savedImage.path));
-      } else {
-        Get.snackbar("Error", " no image selected",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
+  sendImage() async {
+    final imageBytes = File(selectedImagePath.value).readAsBytesSync();
+
+    final base64Image = base64Encode(imageBytes);
+    final dio = Dio();
+    final response = await dio.post(
+      'http://192.168.137.1:5000/scan',
+      data: {'file': base64Image},
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+      Get.to(HomePageView(), binding: HomePageBinding());
+    } else {
+      Get.snackbar("Error", " no image selected",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white);
     }
-    // void goToImagePage(String imagePath) {
-    //   Get.to(FactureListView(imagePath: imagePath));
-    // }
   }
 }

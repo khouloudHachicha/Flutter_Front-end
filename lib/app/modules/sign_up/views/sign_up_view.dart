@@ -1,3 +1,4 @@
+import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ocr_projet_pfe/app/modules/widgets/background.dart';
@@ -30,51 +31,63 @@ class SignUpView extends GetView<SignUpController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                      CustomSizedBoxTextFormField(
-                       height: 50,
-                       controller: controller.usernameController,
-                       labelText: "Username",
-                       prefixIconData: Icons.person_outline_outlined,
-                       //validator: controller.isValidUsername()
-                     ),
-                    SizedBox(
-                      height: 20.0,),
-                     CustomSizedBoxTextFormField(
-                      height: 50,
-                      controller: controller.emailController,
-                      labelText: "Email",
-                      prefixIconData: Icons.email_outlined,
-                       //validator: controller.isValidEmail(),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                     CustomSizedBoxTextFormField(
-                      height: 50,
-                      controller: controller.phoneController,
-                      labelText: "phone",
-                      prefixIconData: Icons.phone,
-                      //validator: controller.,
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    SizedBox(
+                  SizedBox(
                       height: 50,
                       child: TextFormField(
-                        controller: controller.passwordController,
-                        obscureText: controller.isPasswordHidden.value,
-                        decoration: InputDecoration(
-                          hintText: "password",
-                          border: const OutlineInputBorder(),
-                          suffix: InkWell(
-                            child: Icon(
-                              controller.isPasswordHidden.value
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your username !';
+                          }
+                        },
+                        controller: controller.usernameController,
+                        decoration:  InputDecoration(
+                          focusColor: Colors.blueAccent,
+                          fillColor: Colors.blueAccent,
+                          prefixIcon: Icon(
+                            Icons.person_outline_outlined,
+                            size: 20,
+                            color: Colours.navy,
+                          ),
+                          label: const Text(
+                            'username',
+                            style: TextStyle(
                               color: Colors.grey,
                             ),
                           ),
+                          border: const OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,),
+                    SizedBox(
+                      height: 50,
+                      child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email !';
+                          } else if (value.isEmail == false) {
+                            return 'Your email must be valid !';
+                          }
+                        },
+                        controller: controller.emailController,
+                        decoration:  InputDecoration(
+                          focusColor: Colors.blueAccent,
+                          fillColor: Colors.blueAccent,
+                          prefixIcon: Icon(
+                            Icons.email_outlined,
+                            size: 20,
+                            color: Colours.navy,
+                          ),
+                          label: const Text(
+                            'email',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                     ),
@@ -84,20 +97,116 @@ class SignUpView extends GetView<SignUpController> {
                     SizedBox(
                       height: 50,
                       child: TextFormField(
-                        controller: controller.passwordController,
-                        obscureText: controller.isPasswordHidden.value,
-                        decoration: InputDecoration(
-                          hintText: "Confirm password",
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your ID number !';
+                          } else if (!value.isNum || value.length!=8) {
+                            return 'Your ID must be valid !';
+                          }
+                        },
+                        controller: controller.cinController,
+                        decoration:  InputDecoration(
+                          focusColor: Colors.blueAccent,
+                          fillColor: Colors.blueAccent,
+                          prefixIcon: Icon(
+                            Icons.credit_card,
+                            size: 20,
+                            color: Colours.navy,
+                          ),
+                          label: const Text(
+                            'ID',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
                           border: const OutlineInputBorder(),
-                          suffix: InkWell(
-                              child: Icon(
-                            controller.isPasswordHidden.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.grey,
-                          )),
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your phone number !';
+                          } else if (!value.isNum || value.length!=8) {
+                            return 'Your phone number must be valid !';
+                          }
+                        },
+                        controller: controller.phoneController,
+                        decoration:  InputDecoration(
+                          focusColor: Colors.blueAccent,
+                          fillColor: Colors.blueAccent,
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            size: 20,
+                            color: Colours.navy,
+                          ),
+                          label: const Text(
+                            'phone',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          border: const OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                      Obx(() {
+                        return SizedBox(
+                          height: 50,
+                          child: TextFormField(
+                            obscureText: controller.isPasswordVisible.value,
+                            controller: controller.passwordController,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              isDense: true,
+                              icon: Icon(Icons.password_outlined),
+                              suffix: IconButton(
+                                onPressed: () {
+                                  controller.isPasswordVisible.value =
+                                  !controller.isPasswordVisible.value;
+                                },
+                                icon: Obx(
+                                      () => Icon(
+                                    controller.isPasswordVisible.value
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter a password !';
+                              } else if (value.length < 8 ){
+                              return 'Your password must contain at least 8 characters !';
+                              }
+                              return null;
+                              },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            onSaved: (String? value) {},
+                          ),
+                        );
+                      }),
+                      ],
+                    ),
+              ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
                     ),
                     const SizedBox(height: 40.0, width: double.infinity),
                     Align(
@@ -105,18 +214,13 @@ class SignUpView extends GetView<SignUpController> {
                       child: MyElevatedButton(
                         text: 'Sign up',
                         onPressed: () {
-                          //Get.off(() => LoginView(), binding: LoginBinding());
                           controller.register();
                         },
                       ),
                     ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+          ],),
+    ),
     );
+
   }
 }

@@ -1,3 +1,4 @@
+import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/facture_list_controller.dart';
@@ -8,7 +9,13 @@ class FactureListView extends GetView<FactureListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(title: Center(child: Text('Facutre List')),),
+        appBar: AppBar(backgroundColor: Colors.white,
+            title: Center(
+                child: Text(
+                    'Invoice List',
+                    style: TextStyle(
+                        color: Colours.navy))
+            )),
       body:
         ListView.builder(
         itemCount: imagePath.length,

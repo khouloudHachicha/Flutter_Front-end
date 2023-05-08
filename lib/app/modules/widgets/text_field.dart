@@ -1,3 +1,4 @@
+import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
@@ -20,13 +21,13 @@ class MyTextField extends StatelessWidget {
 
 class CustomSizedBoxTextFormField extends StatelessWidget {
   final String labelText;
-  final String? Function(String?)? validator;
+  var validator;
   final IconData prefixIconData;
   final double height;
   final Icon? suffixIcon;
   final TextEditingController? controller;
 
-  const CustomSizedBoxTextFormField({
+   CustomSizedBoxTextFormField({
     Key? key,
     required this.labelText,
     required this.prefixIconData,
@@ -43,6 +44,7 @@ class CustomSizedBoxTextFormField extends StatelessWidget {
       child: SizedBox(
         height: height,
         child: TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           controller: controller,
           decoration: InputDecoration(
@@ -50,17 +52,18 @@ class CustomSizedBoxTextFormField extends StatelessWidget {
             fillColor: Colors.blueAccent,
             prefixIcon: Icon(
               prefixIconData,
-              color: Colors.white,
+              color: Colours.navy,
             ),
             suffixIcon: suffixIcon,
             label: Text(
               labelText,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
               ),
             ),
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
           ),
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
         ),
       ),
     );
