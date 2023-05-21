@@ -50,7 +50,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const ProfileView(),
+      page: () =>  ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
@@ -60,9 +60,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FACTURE_LIST,
-      page: () => const FactureListView(
-        imagePath: '',
-      ),
+      page: () => const FactureListView(),
       binding: FactureListBinding(),
     ),
     GetPage(

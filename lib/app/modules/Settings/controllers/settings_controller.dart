@@ -20,7 +20,6 @@ class SettingsController extends GetxController {
     Get.changeThemeMode(isLightTheme.value ? ThemeMode.light : ThemeMode.dark);
   }
 
-
   @override
   void onInit() {
     super.onInit();

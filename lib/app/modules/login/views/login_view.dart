@@ -58,42 +58,54 @@ class LoginView extends GetView<LoginController> {
                  const SizedBox(
                    height: 20,
                  ),
-                 TextFormField(
-                   controller: controller.passwordController,
-                   obscureText: controller.isPasswordHidden.value,
-                   decoration: InputDecoration(
-                     focusColor: Colors.blueAccent,
-                     fillColor: Colors.blueAccent,
-                     prefixIcon: Icon(
-                       Icons.password,
-                       size: 20,
-                       color: Colours.navy,
-                     ),
-                     label: const Text(
-                       'password',
-                       style: TextStyle(
-                         color: Colors.grey,
+                 Obx(() {
+                   return TextFormField(
+                     obscureText: controller.isPasswordHidden.value,
+                     controller: controller.passwordController,
+                     decoration: InputDecoration(
+                       focusColor: Colors.blueAccent,
+                       fillColor: Colors.blueAccent,
+                       prefixIcon: Icon(
+                         Icons.email_outlined,
+                         size: 20,
+                         color: Colours.navy,
+                       ),
+                       label: const Text(
+                         'password',
+                         style: TextStyle(
+                           color: Colors.grey,
+                         ),
+                       ),
+                       border: const OutlineInputBorder(),
+                       isDense: true,
+                       suffix: IconButton(
+                         onPressed: () {
+                           controller.isPasswordHidden.value =
+                           !controller.isPasswordHidden.value;
+                         },
+                         icon: Obx(
+                               () => Icon(
+                             controller.isPasswordHidden.value
+                                 ? Icons.visibility
+                                 : Icons.visibility_off,
+                             size: 20,
+                             color: Colors.grey,
+                           ),
+                         ),
                        ),
                      ),
-                     border: const OutlineInputBorder(),
-                     suffix: InkWell(
-                       child: Icon(
-                         controller.isPasswordHidden.value
-                             ? Icons.visibility
-                             : Icons.visibility_off,
-                         color: Colors.grey,
-                       ),
-                     ),
-                   ),
-                   validator: (value) {
-                     if (value!.isEmpty) {
-                       return 'Please enter a password !';
-                     } else if (value!.length < 8) {
+                     validator: (value) {
+                       if (value!.isEmpty) {
+                         return 'Please enter a password !';
+                       } else if (value.length < 8 ){
                        return 'Your password must contain at least 8 characters !';
-                     }
-                     return null;
-                   },
-                 ),
+                       }
+                       return null;
+                       },
+                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                     onSaved: (String? value) {},
+                   );
+                 }),
                  Row(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
@@ -114,8 +126,7 @@ class LoginView extends GetView<LoginController> {
                    child: MyElevatedButton(
                      text: 'LOGIN',
                      onPressed: () {
-                       Get.off(() => HomePageView(),binding: HomePageBinding());
-                      // controller.login();
+                       controller.login();
                      },
                    ),
                  ),

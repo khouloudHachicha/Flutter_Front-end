@@ -169,7 +169,13 @@ class SignUpView extends GetView<SignUpController> {
                             obscureText: controller.isPasswordVisible.value,
                             controller: controller.passwordController,
                             decoration: InputDecoration(
-                              labelText: 'Password',
+                              label: const Text(
+                                'Password',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              border: const OutlineInputBorder(),
                               isDense: true,
                               icon: Icon(Icons.password_outlined),
                               suffix: IconButton(

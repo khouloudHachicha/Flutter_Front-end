@@ -23,23 +23,32 @@ class UsersListView extends GetView<UsersListController> {
          Get.off(()=> const HomePageView(),binding: HomePageBinding());
        }
       ),),
-      body: SingleChildScrollView(
-        child: Container(
-          height: 300,
-          child: Obx(() => ListView.builder(
-            itemCount: controller.users.length,
-            itemBuilder: (context, index) {
-              final user = controller.users[index];
-              return Card(
-                child: ListTile(
-                  title: Text(user.username),
-                  subtitle: Text('CIN: ${user.cin}\nEmail: ${user.email}\nPhone: ${user.phone}'),
-                ),
-              );
-            },
-          )),
-        ),
-      ),
+      body: Obx(() => ListView.builder(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()) ,
+        itemCount: controller.users.length,
+        itemBuilder: (context, index) {
+          final user = controller.users[index];
+          bool isChecked;
+          return Card(
+            child: ListTile(
+              title: Text(user.username),
+              subtitle: Text('CIN: ${user.cin}\nEmail: ${user.email}\nPhone: ${user.phone}'),
+              leading: Icon(Icons.co_present,color: Colours.navy),
+              onTap: () => controller.openDialog(),
+              trailing: PopupMenuButton<String>(
+                itemBuilder: (BuildContext context) =>
+                <PopupMenuEntry<String>>[
+               PopupMenuItem<String>(
+                child: Text('Delete',style: TextStyle(color: Colours.navy),),
+                 onTap: () {
+                   controller.delete(controller.users[index].id.toString());
+                 },
+              ),
+              ]) ,
+            ),
+          );
+        },
+      )),
     );
   }
 }

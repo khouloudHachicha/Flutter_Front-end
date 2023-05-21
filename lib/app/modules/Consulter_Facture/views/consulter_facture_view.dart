@@ -19,13 +19,13 @@ class ConsulterFactureView extends GetView<ConsulterFactureController> {
                   leading: IconButton(
                     icon:  const Icon(
                     Icons.arrow_back,
-                    color: Colors.white,
+                    color: Colours.white,
                     ),
                     onPressed: (){
                     Get.off(()=> const HomePageView(),binding: HomePageBinding());
                     }
           ),),
-          body: SingleChildScrollView()
+          body: const SingleChildScrollView()
     );
   }
 }

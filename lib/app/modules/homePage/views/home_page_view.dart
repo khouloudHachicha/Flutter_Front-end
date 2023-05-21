@@ -22,9 +22,7 @@ class HomePageView extends GetView<HomePageController> {
           child: IndexedStack(
             index: controller.tabIndex,
             children: [
-              FactureListView(
-                imagePath: '',
-              ),
+              FactureListView(),
               GestureDetector(
                 child: Center(
                   child: Obx(() => controller.selectedImagePath.value ==''

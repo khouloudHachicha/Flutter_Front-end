@@ -1,12 +1,22 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../../Services/FactureService.dart';
+import '../../../data/Models/Facture.dart';
 
 class FactureListController extends GetxController with StateMixin {
 
-  final count = 0.obs;
+  final FactureService _factureService = FactureService();
+  RxList<Facture> factures = <Facture>[].obs;
 
   @override
   void onInit() {
+    PDF();
     super.onInit();
   }
 
@@ -20,10 +30,44 @@ class FactureListController extends GetxController with StateMixin {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> PDF() async {
+    try {
+      var dio = Dio();
+      dio.options.headers = {'Content-Type': 'application/pdf'};
+      final loadedFacture = await _factureService.getFacture();
+      factures.value = loadedFacture;
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to load invoices',
+        duration: Duration(seconds: 3),
+      );
+    }
+  }
+  void openPDF(BuildContext? context, Facture facture) async {
+    if (context != null) {
+      try {
+        final Directory appDir = await getApplicationDocumentsDirectory();
+        final String appDocPath = appDir.path;
+        final String pdfPath = '$appDocPath/facture_${facture.num}.pdf';
 
-  // Future<void> downloadPDF() async {
-  //   final dio = Dio();
-  //   final response = await dio.download('http://192.168.137.1:54999/pdf');
-  // }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                Scaffold(
+                  appBar: AppBar(
+                    title: Text('PDF Viewer'),
+                  ),
+                  body: PDFView(
+                    filePath: pdfPath,
+                  ),
+                ),
+          ),
+        );
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 }
