@@ -1,14 +1,13 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../login/views/login_view.dart';
+import '../views/splash_screen_view.dart';
 
-class HomeController extends GetxController {
+class SplashScreenController extends GetxController {
+
   @override
   void onInit() {
     super.onInit();
   }
+
 
   @override
   void onReady() {

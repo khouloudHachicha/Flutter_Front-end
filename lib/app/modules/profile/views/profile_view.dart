@@ -42,21 +42,21 @@ class ProfileView extends GetView<ProfileController> {
                         SizedBox(
                           height: 50,
                           child: TextFormField(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your username !';
-                              }
-                            },
+                            enabled: false,
                             controller: controller.usernameController,
                             decoration:   InputDecoration(
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
                               label: Text(
-                                UserDataStorage.userData.username,
+                                UserDataStorage.userData!.username,
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  color: Colors.black54,
                                 ),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.person_outline_outlined,
+                                size: 20,
+                                color: Colours.navy,
                               ),
                               border: OutlineInputBorder(),
                             ),
@@ -69,9 +69,7 @@ class ProfileView extends GetView<ProfileController> {
                           child: TextFormField(
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your email !';
-                              } else if (value.isEmail == false) {
+                             if (value!.isEmail == false) {
                                 return 'Your email must be valid !';
                               }
                             },
@@ -80,10 +78,15 @@ class ProfileView extends GetView<ProfileController> {
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
                               label: Text(
-                                UserDataStorage.userData.email,
+                                controller.emailController.text.isNotEmpty ? controller.emailController.text.trim() : UserDataStorage.userData!.email,
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  color: Colors.black54,
                                 ),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.email,
+                                size: 20,
+                                color: Colours.navy,
                               ),
                               border: OutlineInputBorder(),
                             ),
@@ -95,12 +98,11 @@ class ProfileView extends GetView<ProfileController> {
                         SizedBox(
                           height: 50,
                           child: TextFormField(
+                            enabled: false,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.phone,
                             validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your ID number !';
-                              } else if (!value.isNum || value.length!=8) {
+                              if (value!.isNum || value.length!=8) {
                                 return 'Your ID must be valid !';
                               }
                             },
@@ -109,10 +111,15 @@ class ProfileView extends GetView<ProfileController> {
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
                               label: Text(
-                                UserDataStorage.userData.cin,
+                                UserDataStorage.userData!.cin,
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  color: Colors.black54,
                                 ),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.credit_card,
+                                size: 20,
+                                color: Colours.navy,
                               ),
                               border: OutlineInputBorder(),
                             ),
@@ -122,31 +129,34 @@ class ProfileView extends GetView<ProfileController> {
                           height: 20.0,
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 50.0,
                           child: TextFormField(
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.phone,
                             validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your phone number !';
-                              } else if (!value.isNum || value.length!=8) {
+                               if (value!.isNum || value.length!=8) {
                                 return 'Your phone number must be valid !';
                               }
                             },
                             controller: controller.phoneController,
-                            decoration:   InputDecoration(
+                            decoration:  InputDecoration(
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
-                              label: Text(
-                                UserDataStorage.userData.phone,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              border: OutlineInputBorder(),
+                            prefixIcon: Icon(
+                              Icons.phone,
+                              size: 20,
+                              color: Colours.navy,
                             ),
+                            label:  Text(
+                              controller.phoneController.text.isNotEmpty ? controller.phoneController.text : UserDataStorage.userData!.phone,
+                              style: TextStyle(
+                                color: Colors.black54,
+                              ),
+                            ),
+                            border: const OutlineInputBorder(),
                           ),
                         ),
+                      ),
                         const SizedBox(
                           height: 20.0,
                         ),
@@ -155,12 +165,11 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SizedBox(height: 20,),
                 Center(
                   child: MyElevatedButton(
-                    text: 'Edit',
+                    text: 'Update',
                     onPressed: () {
-                      controller.update();
+                      controller.updateUser(UserDataStorage.userData!.id.toString());
                     },
                   ),
                 ),

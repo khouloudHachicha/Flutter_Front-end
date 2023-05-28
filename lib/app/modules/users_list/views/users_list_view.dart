@@ -7,6 +7,9 @@ import '../controllers/users_list_controller.dart';
 
 class UsersListView extends GetView<UsersListController> {
    const UsersListView({Key? key}) : super(key: key);
+   Future<void> _refresh(){
+     return controller.fetchUsers();
+   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,31 +26,33 @@ class UsersListView extends GetView<UsersListController> {
          Get.off(()=> const HomePageView(),binding: HomePageBinding());
        }
       ),),
-      body: Obx(() => ListView.builder(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()) ,
-        itemCount: controller.users.length,
-        itemBuilder: (context, index) {
-          final user = controller.users[index];
-          bool isChecked;
-          return Card(
-            child: ListTile(
-              title: Text(user.username),
-              subtitle: Text('CIN: ${user.cin}\nEmail: ${user.email}\nPhone: ${user.phone}'),
-              leading: Icon(Icons.co_present,color: Colours.navy),
-              onTap: () => controller.openDialog(),
-              trailing: PopupMenuButton<String>(
-                itemBuilder: (BuildContext context) =>
-                <PopupMenuEntry<String>>[
-               PopupMenuItem<String>(
-                child: Text('Delete',style: TextStyle(color: Colours.navy),),
-                 onTap: () {
-                   controller.delete(controller.users[index].id.toString());
-                 },
+      body: Obx(() => RefreshIndicator(
+        onRefresh:() => _refresh(),
+        child: ListView.builder(
+          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()) ,
+          itemCount: controller.users.length,
+          itemBuilder: (context, index) {
+            final user = controller.users[index];
+            return Card(
+              child: ListTile(
+                title: Text(user.username),
+                subtitle: Text('CIN: ${user.cin}\nEmail: ${user.email}\nPhone: ${user.phone}'),
+                leading: Icon(Icons.co_present,color: Colours.navy),
+                onTap: () => controller.openDialog(user.id),
+                trailing: PopupMenuButton<String>(
+                  itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<String>>[
+                 PopupMenuItem<String>(
+                  child: Text('Delete',style: TextStyle(color: Colours.navy),),
+                   onTap: () {
+                     controller.delete(controller.users[index].id.toString());
+                   },
+                ),
+                ]) ,
               ),
-              ]) ,
-            ),
-          );
-        },
+            );
+          },
+        ),
       )),
     );
   }

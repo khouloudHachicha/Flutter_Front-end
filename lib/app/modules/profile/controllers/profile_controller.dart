@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smartrefresh/smartrefresh.dart';
 
 import '../../../Services/UserService.dart';
 import '../../../data/AppUrl.dart';
 import '../../../data/Models/User.dart';
+import '../../../data/UserDataStorage.dart';
 
 class ProfileController extends GetxController {
   final count = 0.obs;
@@ -24,6 +26,8 @@ class ProfileController extends GetxController {
   var cin = ''.obs;
   var phone = ''.obs;
   var password = ''.obs;
+  final RefreshController _refreshController = RefreshController();
+
 
   @override
   void onInit() {
@@ -110,25 +114,22 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> register(String id) async {
+  Future<void> updateUser(String id) async {
     try {
       var dio = Dio();
       dio.options.headers = {'Content-Type': 'application/json'};
       var url = ("${AppUrl.baseUrl}${AppUrl.update}/${id}");
       Map body = {
-        'username': usernameController.text,
-        'email': emailController.text.trim(),
-        'cin': cinController.text,
-        'phone': phoneController.text,
+        'username': usernameController.text=UserDataStorage.userData!.username,
+        'email': emailController.text.isNotEmpty ? emailController.text.trim() : UserDataStorage.userData!.email,
+        'cin':cinController.text=UserDataStorage.userData!.cin,
+        'phone':phoneController.text.isNotEmpty ? phoneController.text : UserDataStorage.userData!.phone
       };
       final response = await dio.put(url, data: body);
       if (response.statusCode == 200) {
-        usernameController.clear();
-        emailController.clear();
-        cinController.clear();
-        phoneController.clear();
-      } else {
-        throw jsonDecode(response.data)["message"] ?? "Unknown Error Occured";
+        Get.snackbar('Success', 'User data updated');
+        _refreshController.refreshCompleted();
+        Get.back();
       }
     } catch (e) {
       print(e);

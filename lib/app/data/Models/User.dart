@@ -22,7 +22,7 @@ class User {
     required this.cin,
     required this.phone,
     required this.email,
-     this.role =''
+    required this.role
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(

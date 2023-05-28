@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:ocr_projet_pfe/app/modules/sign_up/views/sign_up_view.dart';
 import 'package:ocr_projet_pfe/app/modules/widgets/background.dart';
 import 'package:ocr_projet_pfe/app/modules/widgets/elevated_button.dart';
-import '../../homePage/bindings/home_page_binding.dart';
-import '../../homePage/views/home_page_view.dart';
 import '../../sign_up/bindings/sign_up_binding.dart';
 import '../controllers/login_controller.dart';
 
@@ -63,20 +61,17 @@ class LoginView extends GetView<LoginController> {
                      obscureText: controller.isPasswordHidden.value,
                      controller: controller.passwordController,
                      decoration: InputDecoration(
-                       focusColor: Colors.blueAccent,
-                       fillColor: Colors.blueAccent,
                        prefixIcon: Icon(
-                         Icons.email_outlined,
+                         Icons.password,
                          size: 20,
                          color: Colours.navy,
                        ),
                        label: const Text(
-                         'password',
+                         'Password',
                          style: TextStyle(
                            color: Colors.grey,
                          ),
                        ),
-                       border: const OutlineInputBorder(),
                        isDense: true,
                        suffix: IconButton(
                          onPressed: () {
@@ -86,22 +81,22 @@ class LoginView extends GetView<LoginController> {
                          icon: Obx(
                                () => Icon(
                              controller.isPasswordHidden.value
-                                 ? Icons.visibility
-                                 : Icons.visibility_off,
-                             size: 20,
+                                 ? Icons.visibility_off
+                                 : Icons.visibility,
                              color: Colors.grey,
                            ),
                          ),
                        ),
+                       border:  const OutlineInputBorder(),
                      ),
                      validator: (value) {
                        if (value!.isEmpty) {
                          return 'Please enter a password !';
                        } else if (value.length < 8 ){
-                       return 'Your password must contain at least 8 characters !';
+                         return 'Your password must contain at least 8 characters !';
                        }
                        return null;
-                       },
+                     },
                      autovalidateMode: AutovalidateMode.onUserInteraction,
                      onSaved: (String? value) {},
                    );

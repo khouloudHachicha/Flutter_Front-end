@@ -5,51 +5,43 @@ import '../../../data/Models/Facture.dart';
 import '../controllers/facture_list_controller.dart';
 
 class FactureListView extends GetView<FactureListController> {
-  const FactureListView({super.key});
+  FactureListView({super.key});
+
+  final FactureListController controller = Get.put(FactureListController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white,
+      appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Center(
-              child: Text(
-                  'Invoice List',
-                  style: TextStyle(
-                      color: Colours.navy))
+              child:
+                  Text('Invoice List', style: TextStyle(color: Colours.navy)))),
+      body: Obx(() => ListView.builder(
+            itemCount: controller.factures.length,
+            itemBuilder: (context, index) {
+              final facture = controller.factures[index];
+              return Card(
+                child: ListTile(
+                    title: Text(facture.num.toString()),
+                subtitle: Text('CIN: ${facture.client}\nEmail: ${facture.date}\nPhone: ${facture.montant}\n Email: ${facture.vendeur}'),
+                  // title: Text('Facture ${facture.num}'),
+                  // subtitle: Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Text('Date: ${DateTime.tryParse(facture.date.toString())}'),
+                  //     Text('Client: ${facture.client}'),
+                  //     Text('Vendeur: ${facture.vendeur}'),
+                  //     Text('Montant: ${facture.montant}'),
+                  //   ],
+                  // ),
+                  // onTap: () {
+                  //   controller.openPDF(context, facture);
+                  // },
+                ),
+              );
+            },
           )),
-      body: SafeArea(
-        child: GetX<FactureListController>(
-          builder: (controller) {
-            if (controller.factures.isEmpty ) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return ListView.builder(
-                itemCount: controller.factures.length,
-                itemBuilder: (context, index) {
-                  final Facture facture = controller.factures[index];
-                  return ListTile(
-                    title: Text('Facture ${facture.num}'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Date: ${facture.date.toString()}'),
-                        Text('Client: ${facture.client}'),
-                        Text('Vendeur: ${facture.vendeur}'),
-                        Text('Montant: ${facture.montant}'),
-                      ],
-                    ),
-                    onTap: () {
-                      controller.openPDF(context, facture);
-                    },
-                  );
-                },
-              );
-            }
-          },
-        ),
-      ),
     );
   }
 }

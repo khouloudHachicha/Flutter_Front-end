@@ -15,14 +15,12 @@ import '../../login/controllers/login_controller.dart';
 import '../../login/views/login_view.dart';
 import '../../profile/bindings/profile_binding.dart';
 import '../../profile/views/profile_view.dart';
-import '../../sign_up/controllers/sign_up_controller.dart';
 import '../../users_list/bindings/users_list_binding.dart';
 import '../../users_list/views/users_list_view.dart';
 import '../../widgets/setting_group.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
-  final userData = GetStorage();
   SettingsView({super.key});
   @override
   Widget build(BuildContext context) {
@@ -41,13 +39,13 @@ class SettingsView extends GetView<SettingsController> {
           padding: const EdgeInsets.all(24),
           children: [
              SettingsGroup(title: "ACCOUNT", children: [
-              ListTile(
-                title: Text(
-                  UserDataStorage.userData.username,
-                  style: TextStyle(color: Colors.white, fontSize: 22),
-                ),
-                leading: Icon(Icons.account_circle, color: Colors.white, size: 50),
-              ),
+              // ListTile(
+              //   title: Text(
+              //     UserDataStorage.userData!.username,
+              //     style: TextStyle(color: Colors.white, fontSize: 22),
+              //   ),
+              //   leading: Icon(Icons.account_circle, color: Colors.white, size: 50),
+              // ),
             ]),
             SettingsGroup(title: "APPERENCE", children: [
               Obx(() {
@@ -64,7 +62,6 @@ class SettingsView extends GetView<SettingsController> {
                   onChanged: (val) {
                     controller.isLightTheme.value = val;
                     Get.changeTheme(!val ? ThemeData.light() : ThemeData.dark());
-
                     Get.changeThemeMode(
                       controller.isLightTheme.value ? ThemeMode.light : ThemeMode.dark,
                     );
@@ -90,31 +87,38 @@ class SettingsView extends GetView<SettingsController> {
                       Get.off(() =>  ProfileView(), binding: ProfileBinding());
                     },
                   ),
-                  ListTile(
-                    title: const Text(
-                      "User list",
-                      style: TextStyle(color: Colors.white),
+                  Visibility(
+                    //visible: UserDataStorage.userData!.role==['Super Admis','Admis'],
+                    child: ListTile(
+                      title: const Text(
+                        "User list",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      leading: const Icon(
+                        Icons.supervised_user_circle_rounded,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Get.off(() =>  const UsersListView(), binding: UsersListBinding());
+                      },
                     ),
-                    leading: const Icon(
-                      Icons.supervised_user_circle_rounded,
-                      color: Colors.white,
-                    ),
-                    onTap: () {
-                      Get.off(() =>  const UsersListView(), binding: UsersListBinding());
-                    },
                   ),
-                  ListTile(
-                    title: const Text(
-                      "Invoice list",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    leading: const Icon(
-                      Icons.inventory_outlined,
-                      color: Colors.white,
-                    ),
-                    onTap: () {
-                      Get.off(() =>  const ConsulterFactureView(), binding: ConsulterFactureBinding());
-                    },
+                  Visibility(
+                    //visible: UserDataStorage.userData!.role==['Super Admis','Admis'],
+                    child: ListTile(
+                        title: const Text(
+                          "Invoice list",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        leading: const Icon(
+                          Icons.inventory_outlined,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          Get.off(() => const ConsulterFactureView(),
+                              binding: ConsulterFactureBinding());
+                        },
+                      ),
                   ),
                   ListTile(
                     title: const Text(

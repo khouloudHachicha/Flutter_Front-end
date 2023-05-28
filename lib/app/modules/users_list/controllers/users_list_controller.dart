@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Services/UserService.dart';
-import '../../../data/AppUrl.dart';
 import '../../../data/Models/User.dart';
 
 class UsersListController extends GetxController with StateMixin <List<String>>{
@@ -24,8 +23,7 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
   }
 
 
-  @override
-  void openDialog() {
+  void openDialog(int id) {
     Get.dialog(
       AlertDialog(
         backgroundColor: Colours.navy,
@@ -37,7 +35,7 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
           TextButton(
             child: const Text("Yes",style: TextStyle(
               color: Colors.white, )),
-            onPressed: () => Get.back(),
+            onPressed: () => _userService.updateUserRole(id, 'role'),
           ),
           TextButton(
             child: const Text("No",style: TextStyle(
@@ -49,10 +47,9 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
     );
   }
 
-  Future<void> fetchUsers() async {
+  Future fetchUsers() async {
     try {
-      final loadedUsers = await _userService.getUsers();
-      users.value = loadedUsers;
+      final  users = await _userService.getUsers();
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -61,9 +58,9 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
       );
     }
   }
-  Future<void> delete(String id) async {
+  Future delete(String id) async {
     try {
-      await _userService.deleteUser(id);
+       await _userService.deleteUser(id);
     } catch (e) {
       Get.snackbar(
         'Error',

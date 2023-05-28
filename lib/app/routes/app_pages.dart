@@ -60,7 +60,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FACTURE_LIST,
-      page: () => const FactureListView(),
+      page: () =>  FactureListView(),
       binding: FactureListBinding(),
     ),
     GetPage(

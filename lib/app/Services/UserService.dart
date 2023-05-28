@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:ocr_projet_pfe/app/data/UserDataStorage.dart';
+import 'package:smartrefresh/smartrefresh.dart';
 import '../data/AppUrl.dart';
 import '../data/Models/User.dart';
 
@@ -24,7 +26,6 @@ class UserService extends GetxService {
       final response = await dio.delete(baseUrl);
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("User deleted successfully");
-        dio.get("${AppUrl.baseUrl}${AppUrl.user}");
       } else {
         throw Exception('Failed to delete user');
       }
@@ -33,12 +34,16 @@ class UserService extends GetxService {
       throw Exception('Failed to delete user');
     }
   }
-  Future<void> updateUserRole(String username, String newRole) async {
+  Future<void> updateUserRole(int id, String role) async {
     try {
-      String baseUrl = ("${AppUrl.baseUrl}${AppUrl.update_role}/${username}");
-      final response = await dio.put(baseUrl, data: newRole);
+      String baseUrl = ("${AppUrl.baseUrl}${AppUrl.update_role}/${id}");
+      Map body = {
+        'role':'Admis'
+      };
+      final response = await dio.put(baseUrl, data: body);
       if (response.statusCode == 200) {
         print('User role updated successfully');
+        Get.back();
       } else {
         throw Exception('Failed to update user role');
       }

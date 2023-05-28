@@ -11,13 +11,13 @@ import '../../../data/Models/Facture.dart';
 
 class FactureListController extends GetxController with StateMixin {
 
-  final FactureService _factureService = FactureService();
+  final FactureService factureService = FactureService();
   RxList<Facture> factures = <Facture>[].obs;
 
   @override
   void onInit() {
-    PDF();
     super.onInit();
+    getAllFacture();
   }
 
   @override
@@ -30,12 +30,9 @@ class FactureListController extends GetxController with StateMixin {
     super.onClose();
   }
 
-  Future<void> PDF() async {
+  Future getAllFacture() async {
     try {
-      var dio = Dio();
-      dio.options.headers = {'Content-Type': 'application/pdf'};
-      final loadedFacture = await _factureService.getFacture();
-      factures.value = loadedFacture;
+      factures.value =  await factureService.getFacture();
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -43,6 +40,7 @@ class FactureListController extends GetxController with StateMixin {
         duration: Duration(seconds: 3),
       );
     }
+    print(factures.value.toString()+"fefzef");
   }
   void openPDF(BuildContext? context, Facture facture) async {
     if (context != null) {
