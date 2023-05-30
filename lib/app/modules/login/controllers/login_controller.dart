@@ -58,7 +58,7 @@ class LoginController extends GetxController {
         emailController.clear();
         passwordController.clear();
         UserDataStorage.setUserData(response.data);
-        print(response.data.toString() );
+        print(response.data.runtimeType );
         Get.off(() => const HomePageView(), binding: HomePageBinding());
         showDialog(
             context: Get.context!,

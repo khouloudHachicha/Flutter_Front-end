@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ocr_projet_pfe/app/modules/homePage/bindings/home_page_binding.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../../data/AppUrl.dart';
 import '../../Facture_list/views/facture_list_view.dart';
 import '../views/home_page_view.dart';
 
@@ -52,7 +53,7 @@ class HomePageController extends GetxController {
     final base64Image = base64Encode(imageBytes);
     final dio = Dio();
     final response = await dio.post(
-      'http://192.168.137.1:5000/scan',
+      "${AppUrl.baseUrl_python}${AppUrl.scan}",
       data: {'file': base64Image},
     );
     if (response.statusCode == 200) {

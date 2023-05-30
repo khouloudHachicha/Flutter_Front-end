@@ -22,7 +22,6 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
     super.onReady();
   }
 
-
   void openDialog(int id) {
     Get.dialog(
       AlertDialog(
@@ -50,6 +49,7 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
   Future fetchUsers() async {
     try {
       final  users = await _userService.getUsers();
+      print("success");
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -60,7 +60,7 @@ class UsersListController extends GetxController with StateMixin <List<String>>{
   }
   Future delete(String id) async {
     try {
-       await _userService.deleteUser(id);
+    await _userService.deleteUser(id);
     } catch (e) {
       Get.snackbar(
         'Error',

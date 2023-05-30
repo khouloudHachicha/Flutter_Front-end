@@ -39,13 +39,13 @@ class SettingsView extends GetView<SettingsController> {
           padding: const EdgeInsets.all(24),
           children: [
              SettingsGroup(title: "ACCOUNT", children: [
-              // ListTile(
-              //   title: Text(
-              //     UserDataStorage.userData!.username,
-              //     style: TextStyle(color: Colors.white, fontSize: 22),
-              //   ),
-              //   leading: Icon(Icons.account_circle, color: Colors.white, size: 50),
-              // ),
+              ListTile(
+                title: Text(
+                  UserDataStorage.userData.username,
+                  style: TextStyle(color: Colors.white, fontSize: 22),
+                ),
+                leading: Icon(Icons.account_circle, color: Colors.white, size: 50),
+              ),
             ]),
             SettingsGroup(title: "APPERENCE", children: [
               Obx(() {
@@ -88,7 +88,7 @@ class SettingsView extends GetView<SettingsController> {
                     },
                   ),
                   Visibility(
-                    //visible: UserDataStorage.userData!.role==['Super Admis','Admis'],
+                    visible: UserDataStorage.userData!.role==['Super Admis','admis'],
                     child: ListTile(
                       title: const Text(
                         "User list",
@@ -104,7 +104,7 @@ class SettingsView extends GetView<SettingsController> {
                     ),
                   ),
                   Visibility(
-                    //visible: UserDataStorage.userData!.role==['Super Admis','Admis'],
+                    visible: UserDataStorage.userData!.role==['Super Admis','Admis'],
                     child: ListTile(
                         title: const Text(
                           "Invoice list",
@@ -115,7 +115,7 @@ class SettingsView extends GetView<SettingsController> {
                           color: Colors.white,
                         ),
                         onTap: () {
-                          Get.off(() => const ConsulterFactureView(),
+                          Get.off(() =>  ConsulterFactureView(),
                               binding: ConsulterFactureBinding());
                         },
                       ),
@@ -138,6 +138,47 @@ class SettingsView extends GetView<SettingsController> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Map<String, dynamic>> userList = [
+    {"id": 1, "admin": false},
+    {"id": 2, "admin": true}
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('User List'),
+        ),
+        body: ListView.builder(
+          itemCount: userList.length,
+          itemBuilder: (context, index) {
+            final userData = userList[index];
+
+            return ListTile(
+              title: Text('ID: ${userData["id"]}'),
+              subtitle: Text('Admin: ${userData["admin"]}'),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    userList[index]["admin"] = !userData["admin"];
+                  });
+                },
+                child: Text('Toggle Admin'),
+              ),
+            );
+          },
         ),
       ),
     );

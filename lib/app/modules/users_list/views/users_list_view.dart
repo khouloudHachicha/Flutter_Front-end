@@ -2,6 +2,8 @@ import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ocr_projet_pfe/app/modules/homePage/views/home_page_view.dart';
+import '../../Settings/bindings/settings_binding.dart';
+import '../../Settings/views/settings_view.dart';
 import '../../homePage/bindings/home_page_binding.dart';
 import '../controllers/users_list_controller.dart';
 
@@ -23,7 +25,7 @@ class UsersListView extends GetView<UsersListController> {
         color: Colors.white,
          ),
        onPressed: (){
-         Get.off(()=> const HomePageView(),binding: HomePageBinding());
+         Get.off(()=> SettingsView(),binding: SettingsBinding());
        }
       ),),
       body: Obx(() => RefreshIndicator(

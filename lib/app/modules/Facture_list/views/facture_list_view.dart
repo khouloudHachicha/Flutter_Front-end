@@ -23,21 +23,25 @@ class FactureListView extends GetView<FactureListController> {
               final facture = controller.factures[index];
               return Card(
                 child: ListTile(
-                    title: Text(facture.num.toString()),
-                subtitle: Text('CIN: ${facture.client}\nEmail: ${facture.date}\nPhone: ${facture.montant}\n Email: ${facture.vendeur}'),
-                  // title: Text('Facture ${facture.num}'),
-                  // subtitle: Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     Text('Date: ${DateTime.tryParse(facture.date.toString())}'),
-                  //     Text('Client: ${facture.client}'),
-                  //     Text('Vendeur: ${facture.vendeur}'),
-                  //     Text('Montant: ${facture.montant}'),
-                  //   ],
-                  // ),
-                  // onTap: () {
-                  //   controller.openPDF(context, facture);
-                  // },
+                  title: Text('Facture ${facture.num}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Date: ${DateTime.tryParse(facture.date.toString())}'),
+                      Text('Numéro: ${facture.num}'),
+                      Text('Client: ${facture.client}'),
+                      Text('Montant: ${facture.montant}'),
+                    ],
+                  ),
+                  onTap: () {
+                    controller.openPDF(context, facture);
+                  },
+                  trailing: IconButton(
+                    icon: Icon(Icons.picture_as_pdf_outlined,color: Colours.navy,),
+                    onPressed: (){
+                      controller.openPDF(context, facture);
+                    },
+                  ),
                 ),
               );
             },

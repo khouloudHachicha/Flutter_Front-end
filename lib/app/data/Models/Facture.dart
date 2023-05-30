@@ -6,7 +6,7 @@ String factureToJson(List<Facture> data) => json.encode(List<dynamic>.from(data.
 
 class Facture {
   int num;
-  DateTime date;
+  String date;
   String client;
   String vendeur;
   String montant;
@@ -21,7 +21,7 @@ class Facture {
 
   factory Facture.fromJson(Map<String, dynamic> json) => Facture(
     num: json["num"],
-    date: DateTime.parse(json["date"]),
+    date: json["date"],
     client: json["client"],
     vendeur: json["vendeur"],
     montant: json["montant"],
@@ -29,7 +29,7 @@ class Facture {
 
   Map<String, dynamic> toJson() => {
     "num": num,
-    "date": date.toIso8601String(),
+    "date": date,
     "client": client,
     "vendeur": vendeur,
     "montant": montant,

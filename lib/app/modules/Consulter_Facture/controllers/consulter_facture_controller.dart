@@ -1,7 +1,12 @@
 import 'package:get/get.dart';
 
+import '../../../Services/FactureService.dart';
+import '../../../data/Models/Facture.dart';
+
 class ConsulterFactureController extends GetxController {
-  //TODO: Implement ConsulterFactureController
+  final FactureService factureService = FactureService();
+  RxList<Facture> factures = <Facture>[].obs;
+
 
   final count = 0.obs;
   @override
@@ -19,5 +24,17 @@ class ConsulterFactureController extends GetxController {
     super.onClose();
   }
 
+  Future getAllFacture() async {
+    try {
+      factures.value =  await factureService.getFacture();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to load invoices',
+        duration: Duration(seconds: 3),
+      );
+    }
+    print(factures.value.toString());
+  }
   void increment() => count.value++;
 }

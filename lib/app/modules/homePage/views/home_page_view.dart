@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Facture_list/views/facture_list_view.dart';
 import '../../Settings/views/settings_view.dart';
+import '../bindings/home_page_binding.dart';
 import '../controllers/home_page_controller.dart';
 
 class HomePageView extends GetView<HomePageController> {
@@ -30,7 +31,20 @@ class HomePageView extends GetView<HomePageController> {
                       : Column(
                         children: [
                           Image.file(File(controller.selectedImagePath.value)),
-                        ElevatedButton(onPressed:()async=>controller.sendImage(),child: Text("Send"))
+                        ElevatedButton(onPressed:()async=>controller.sendImage()
+                          ,child: Text("Send"),
+                          style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: Colours.navy,),),
+                          ElevatedButton(onPressed:()=>Get.back(),
+                            child: Text("Cancel"),
+                            style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                ),
+                backgroundColor: Colours.navy,),)
                         ],
                       ),
                   ),

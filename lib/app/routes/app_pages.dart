@@ -70,7 +70,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CONSULTER_FACTURE,
-      page: () => const ConsulterFactureView(),
+      page: () =>  ConsulterFactureView(),
       binding: ConsulterFactureBinding(),
     ),
   ];

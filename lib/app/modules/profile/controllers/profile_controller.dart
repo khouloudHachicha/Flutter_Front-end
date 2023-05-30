@@ -120,10 +120,10 @@ class ProfileController extends GetxController {
       dio.options.headers = {'Content-Type': 'application/json'};
       var url = ("${AppUrl.baseUrl}${AppUrl.update}/${id}");
       Map body = {
-        'username': usernameController.text=UserDataStorage.userData!.username,
-        'email': emailController.text.isNotEmpty ? emailController.text.trim() : UserDataStorage.userData!.email,
-        'cin':cinController.text=UserDataStorage.userData!.cin,
-        'phone':phoneController.text.isNotEmpty ? phoneController.text : UserDataStorage.userData!.phone
+        'username': usernameController.text=UserDataStorage.userData.username,
+        'email': emailController.text.isNotEmpty ? emailController.text.trim() : UserDataStorage.userData.email,
+        'cin':cinController.text=UserDataStorage.userData.cin,
+        'phone':phoneController.text.isNotEmpty ? phoneController.text : UserDataStorage.userData.phone
       };
       final response = await dio.put(url, data: body);
       if (response.statusCode == 200) {

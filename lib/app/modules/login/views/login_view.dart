@@ -57,48 +57,51 @@ class LoginView extends GetView<LoginController> {
                    height: 20,
                  ),
                  Obx(() {
-                   return TextFormField(
-                     obscureText: controller.isPasswordHidden.value,
-                     controller: controller.passwordController,
-                     decoration: InputDecoration(
-                       prefixIcon: Icon(
-                         Icons.password,
-                         size: 20,
-                         color: Colours.navy,
-                       ),
-                       label: const Text(
-                         'Password',
-                         style: TextStyle(
-                           color: Colors.grey,
+                   return SizedBox(
+                     height: 56,
+                     child: TextFormField(
+                       obscureText: controller.isPasswordHidden.value,
+                       controller: controller.passwordController,
+                       decoration: InputDecoration(
+                         prefixIcon: Icon(
+                           Icons.password,
+                           size: 20,
+                           color: Colours.navy,
                          ),
-                       ),
-                       isDense: true,
-                       suffix: IconButton(
-                         onPressed: () {
-                           controller.isPasswordHidden.value =
-                           !controller.isPasswordHidden.value;
-                         },
-                         icon: Obx(
-                               () => Icon(
-                             controller.isPasswordHidden.value
-                                 ? Icons.visibility_off
-                                 : Icons.visibility,
+                         label: const Text(
+                           'Password',
+                           style: TextStyle(
                              color: Colors.grey,
                            ),
                          ),
+                         isDense: true,
+                         suffix: IconButton(
+                           onPressed: () {
+                             controller.isPasswordHidden.value =
+                             !controller.isPasswordHidden.value;
+                           },
+                           icon: Obx(
+                                 () => Icon(
+                               controller.isPasswordHidden.value
+                                   ? Icons.visibility_off
+                                   : Icons.visibility,
+                               color: Colors.grey,
+                             ),
+                           ),
+                         ),
+                         border:  const OutlineInputBorder(),
                        ),
-                       border:  const OutlineInputBorder(),
+                       validator: (value) {
+                         if (value!.isEmpty) {
+                           return 'Please enter a password !';
+                         } else if (value.length < 8 ){
+                           return 'Your password must contain at least 8 characters !';
+                         }
+                         return null;
+                       },
+                       autovalidateMode: AutovalidateMode.onUserInteraction,
+                       onSaved: (String? value) {},
                      ),
-                     validator: (value) {
-                       if (value!.isEmpty) {
-                         return 'Please enter a password !';
-                       } else if (value.length < 8 ){
-                         return 'Your password must contain at least 8 characters !';
-                       }
-                       return null;
-                     },
-                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                     onSaved: (String? value) {},
                    );
                  }),
                  Row(

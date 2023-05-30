@@ -48,7 +48,7 @@ class ProfileView extends GetView<ProfileController> {
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
                               label: Text(
-                                UserDataStorage.userData!.username,
+                                UserDataStorage.userData.username,
                                 style: TextStyle(
                                   color: Colors.black54,
                                 ),
@@ -78,7 +78,7 @@ class ProfileView extends GetView<ProfileController> {
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
                               label: Text(
-                                controller.emailController.text.isNotEmpty ? controller.emailController.text.trim() : UserDataStorage.userData!.email,
+                                controller.emailController.text.isNotEmpty ? controller.emailController.text.trim() : UserDataStorage.userData.email,
                                 style: TextStyle(
                                   color: Colors.black54,
                                 ),
@@ -111,7 +111,7 @@ class ProfileView extends GetView<ProfileController> {
                               focusColor: Colors.blueAccent,
                               fillColor: Colors.blueAccent,
                               label: Text(
-                                UserDataStorage.userData!.cin,
+                                UserDataStorage.userData.cin,
                                 style: TextStyle(
                                   color: Colors.black54,
                                 ),
@@ -148,7 +148,7 @@ class ProfileView extends GetView<ProfileController> {
                               color: Colours.navy,
                             ),
                             label:  Text(
-                              controller.phoneController.text.isNotEmpty ? controller.phoneController.text : UserDataStorage.userData!.phone,
+                              controller.phoneController.text.isNotEmpty ? controller.phoneController.text : UserDataStorage.userData.phone,
                               style: TextStyle(
                                 color: Colors.black54,
                               ),
@@ -169,7 +169,7 @@ class ProfileView extends GetView<ProfileController> {
                   child: MyElevatedButton(
                     text: 'Update',
                     onPressed: () {
-                      controller.updateUser(UserDataStorage.userData!.id.toString());
+                      controller.updateUser(UserDataStorage.userData.id.toString());
                     },
                   ),
                 ),
