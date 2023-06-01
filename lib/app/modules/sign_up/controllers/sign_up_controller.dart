@@ -8,9 +8,10 @@ import 'package:get/get.dart';
 import 'package:ocr_projet_pfe/app/modules/homePage/bindings/home_page_binding.dart';
 import 'package:ocr_projet_pfe/app/modules/homePage/views/home_page_view.dart';
 
+import '../../../data/AppUrl.dart';
+
 class SignUpController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  var email = ''.obs;
   var isPasswordHidden = true.obs;
   final Dio _dio = Dio();
   final usernameController = TextEditingController();
@@ -21,10 +22,12 @@ class SignUpController extends GetxController {
   final RxBool isPasswordVisible = true.obs;
   RxnString errorText = RxnString(null);
   Rxn<Function()> submitFunc = Rxn<Function()>(null);
+  var email = ''.obs;
   var username = ''.obs;
   var cin = ''.obs;
   var phone = ''.obs;
   var password = ''.obs;
+
 
 
   @override
@@ -104,7 +107,7 @@ class SignUpController extends GetxController {
     try {
       var dio = Dio();
       dio.options.headers = {'Content-Type': 'application/json'};
-      var url = "http://192.168.137.1:54999/register";
+      var url = ("${AppUrl.baseUrl}${AppUrl.registre}/registre");
 
       Map body = {
         'username': usernameController.text,
@@ -131,9 +134,9 @@ class SignUpController extends GetxController {
           context: Get.context!,
           builder: (context) {
             return SimpleDialog(
-              title: Text('Error'),
+              backgroundColor: Colors.red,
               contentPadding: EdgeInsets.all(20),
-              children: [Text(e.toString())],
+              children: [Text("Can you check again please!", style: TextStyle(color: Colors.white),)],
             );
           });
     }

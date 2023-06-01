@@ -1,13 +1,26 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:colours/colours.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../../Services/FactureService.dart';
+import '../../../data/AppUrl.dart';
+import '../../../data/Models/Facture.dart';
 
 class FactureListController extends GetxController with StateMixin {
-
-  final count = 0.obs;
+  final FactureService factureService = FactureService();
+  RxList<Facture> factures = <Facture>[].obs;
+  Dio dio = Dio(BaseOptions());
 
   @override
   void onInit() {
     super.onInit();
+    getAllFacture();
   }
 
   @override
@@ -20,10 +33,52 @@ class FactureListController extends GetxController with StateMixin {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future getAllFacture() async {
+    try {
+      factures.value = await factureService.getFacture();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to load invoices',
+        duration: Duration(seconds: 3),
+      );
+    }
+    print(factures.value.toString());
+  }
 
-  // Future<void> downloadPDF() async {
-  //   final dio = Dio();
-  //   final response = await dio.download('http://192.168.137.1:54999/pdf');
-  // }
+//   Future<void> openPDF(BuildContext? context) async {
+//     if (context != null) {
+//       try {
+//         String baseUrl = ("${AppUrl.baseUrl}${AppUrl.facture}");
+//         final response = await dio.get(baseUrl);
+//         if (response.statusCode == 200 || response.statusCode == 201) {
+//           // final Directory appDir = await getApplicationDocumentsDirectory();
+//           // final String appDocPath = appDir.path;
+//           // final String pdfPath = '$appDocPath/facture_${facture.num}.pdf';
+//
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) =>
+//                   Scaffold(
+//                     appBar: AppBar(
+//                       title: Text('PDF Viewer'),
+//                       backgroundColor: Colours.navy,
+//                       elevation: 1,
+//                     ),
+//                     body: Obx(() {
+//
+//
+//                     }),
+//                   ),
+//             ),
+//           );
+//         } else {
+//           print("Failed");
+//         }
+//       } catch (e) {
+//         print(e);
+//       }
+//     }
+//   }
 }

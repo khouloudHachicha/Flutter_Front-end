@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:ocr_projet_pfe/app/modules/sign_up/views/sign_up_view.dart';
 import 'package:ocr_projet_pfe/app/modules/widgets/background.dart';
 import 'package:ocr_projet_pfe/app/modules/widgets/elevated_button.dart';
-import '../../homePage/bindings/home_page_binding.dart';
-import '../../homePage/views/home_page_view.dart';
 import '../../sign_up/bindings/sign_up_binding.dart';
 import '../controllers/login_controller.dart';
 
@@ -33,7 +31,7 @@ class LoginView extends GetView<LoginController> {
                    validator: (value) {
                      if (value!.isEmpty) {
                        return 'Please enter your email !';
-                     } else if (value.isEmail == false) {
+                     } else if (value != "admin" && value.isEmail == false) {
                        return 'Your email must be valid !';
                      }
                    },
@@ -58,42 +56,54 @@ class LoginView extends GetView<LoginController> {
                  const SizedBox(
                    height: 20,
                  ),
-                 TextFormField(
-                   controller: controller.passwordController,
-                   obscureText: controller.isPasswordHidden.value,
-                   decoration: InputDecoration(
-                     focusColor: Colors.blueAccent,
-                     fillColor: Colors.blueAccent,
-                     prefixIcon: Icon(
-                       Icons.password,
-                       size: 20,
-                       color: Colours.navy,
-                     ),
-                     label: const Text(
-                       'password',
-                       style: TextStyle(
-                         color: Colors.grey,
+                 Obx(() {
+                   return SizedBox(
+                     height: 56,
+                     child: TextFormField(
+                       obscureText: controller.isPasswordHidden.value,
+                       controller: controller.passwordController,
+                       decoration: InputDecoration(
+                         prefixIcon: Icon(
+                           Icons.password,
+                           size: 20,
+                           color: Colours.navy,
+                         ),
+                         label: const Text(
+                           'Password',
+                           style: TextStyle(
+                             color: Colors.grey,
+                           ),
+                         ),
+                         isDense: true,
+                         suffix: IconButton(
+                           onPressed: () {
+                             controller.isPasswordHidden.value =
+                             !controller.isPasswordHidden.value;
+                           },
+                           icon: Obx(
+                                 () => Icon(
+                               controller.isPasswordHidden.value
+                                   ? Icons.visibility_off
+                                   : Icons.visibility,
+                               color: Colors.grey,
+                             ),
+                           ),
+                         ),
+                         border:  const OutlineInputBorder(),
                        ),
+                       validator: (value) {
+                         if (value!.isEmpty) {
+                           return 'Please enter a password !';
+                         } else if (value != "admin" && value.length < 8 ){
+                           return 'Your password must contain at least 8 characters !';
+                         }
+                         return null;
+                       },
+                       autovalidateMode: AutovalidateMode.onUserInteraction,
+                       onSaved: (String? value) {},
                      ),
-                     border: const OutlineInputBorder(),
-                     suffix: InkWell(
-                       child: Icon(
-                         controller.isPasswordHidden.value
-                             ? Icons.visibility
-                             : Icons.visibility_off,
-                         color: Colors.grey,
-                       ),
-                     ),
-                   ),
-                   validator: (value) {
-                     if (value!.isEmpty) {
-                       return 'Please enter a password !';
-                     } else if (value!.length < 8) {
-                       return 'Your password must contain at least 8 characters !';
-                     }
-                     return null;
-                   },
-                 ),
+                   );
+                 }),
                  Row(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
@@ -114,8 +124,7 @@ class LoginView extends GetView<LoginController> {
                    child: MyElevatedButton(
                      text: 'LOGIN',
                      onPressed: () {
-                       Get.off(() => HomePageView(),binding: HomePageBinding());
-                      // controller.login();
+                       controller.login();
                      },
                    ),
                  ),

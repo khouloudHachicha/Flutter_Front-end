@@ -2,21 +2,27 @@ import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ocr_projet_pfe/app/data/Models/User.dart';
 
+import '../../../data/UserDataStorage.dart';
+import '../../Consulter_Facture/bindings/consulter_facture_binding.dart';
+import '../../Consulter_Facture/views/consulter_facture_view.dart';
+import '../../Facture_list/bindings/facture_list_binding.dart';
+import '../../Facture_list/views/facture_list_view.dart';
 import '../../login/bindings/login_binding.dart';
+import '../../login/controllers/login_controller.dart';
 import '../../login/views/login_view.dart';
 import '../../profile/bindings/profile_binding.dart';
 import '../../profile/views/profile_view.dart';
-import '../../sign_up/controllers/sign_up_controller.dart';
 import '../../users_list/bindings/users_list_binding.dart';
 import '../../users_list/views/users_list_view.dart';
 import '../../widgets/setting_group.dart';
+import '../../widgets/Pdf_Generator.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
-  SignUpController signUpController=Get.find();
-   SettingsView({super.key});
+  SettingsView({super.key});
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SettingsController());
@@ -35,12 +41,9 @@ class SettingsView extends GetView<SettingsController> {
           children: [
              SettingsGroup(title: "ACCOUNT", children: [
               ListTile(
-                title: Text("${signUpController.usernameController}",
+                title: Text(
+                  UserDataStorage.userData.username,
                   style: TextStyle(color: Colors.white, fontSize: 22),
-                ),
-                subtitle: Text(
-                  'Email',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
                 ),
                 leading: Icon(Icons.account_circle, color: Colors.white, size: 50),
               ),
@@ -60,7 +63,6 @@ class SettingsView extends GetView<SettingsController> {
                   onChanged: (val) {
                     controller.isLightTheme.value = val;
                     Get.changeTheme(!val ? ThemeData.light() : ThemeData.dark());
-
                     Get.changeThemeMode(
                       controller.isLightTheme.value ? ThemeMode.light : ThemeMode.dark,
                     );
@@ -83,34 +85,41 @@ class SettingsView extends GetView<SettingsController> {
                       color: Colors.white,
                     ),
                     onTap: () {
-                      Get.off(() => const ProfileView(), binding: ProfileBinding());
+                      Get.to(() =>  ProfileView(), binding: ProfileBinding());
                     },
                   ),
-                  ListTile(
-                    title: const Text(
-                      "User list",
-                      style: TextStyle(color: Colors.white),
+                  Visibility(
+                    // visible: UserDataStorage.userData.role==['Super admin','admin'],
+                    child: ListTile(
+                      title: const Text(
+                        "User list",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      leading: const Icon(
+                        Icons.supervised_user_circle_rounded,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Get.to(() =>   UsersListView(), binding: UsersListBinding());
+                      },
                     ),
-                    leading: const Icon(
-                      Icons.supervised_user_circle_rounded,
-                      color: Colors.white,
-                    ),
-                    onTap: () {
-                      Get.off(() =>  const UsersListView(), binding: UsersListBinding());
-                    },
                   ),
-                  ListTile(
-                    title: const Text(
-                      "Invoice list",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    leading: const Icon(
-                      Icons.supervised_user_circle_rounded,
-                      color: Colors.white,
-                    ),
-                    onTap: () {
-                      Get.off(() =>  const UsersListView(), binding: UsersListBinding());
-                    },
+                  Visibility(
+                    visible: UserDataStorage.userData.role==["Super admin","admin"],
+                    child: ListTile(
+                        title: const Text(
+                          "Invoices",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        leading: const Icon(
+                          Icons.inventory_outlined,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          Get.to(() =>  ConsulterFactureView(),
+                              binding: ConsulterFactureBinding());
+                        },
+                      ),
                   ),
                   ListTile(
                     title: const Text(
@@ -123,6 +132,7 @@ class SettingsView extends GetView<SettingsController> {
                     ),
                     onTap: () {
                       Get.off(() => LoginView(), binding: LoginBinding());
+                      // Get.to(()=>pdf());
                     },
                   ),
 
@@ -135,3 +145,4 @@ class SettingsView extends GetView<SettingsController> {
     );
   }
 }
+

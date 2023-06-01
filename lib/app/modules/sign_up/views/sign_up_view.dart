@@ -10,6 +10,7 @@ import '../controllers/sign_up_controller.dart';
 
 class SignUpView extends GetView<SignUpController> {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -169,9 +170,18 @@ class SignUpView extends GetView<SignUpController> {
                             obscureText: controller.isPasswordVisible.value,
                             controller: controller.passwordController,
                             decoration: InputDecoration(
-                              labelText: 'Password',
+                              prefixIcon: Icon(
+                                Icons.password,
+                                size: 20,
+                                color: Colours.navy,
+                              ),
+                              label: const Text(
+                                'Password',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
                               isDense: true,
-                              icon: Icon(Icons.password_outlined),
                               suffix: IconButton(
                                 onPressed: () {
                                   controller.isPasswordVisible.value =
@@ -187,6 +197,7 @@ class SignUpView extends GetView<SignUpController> {
                                   ),
                                 ),
                               ),
+                              border:  const OutlineInputBorder(),
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -208,7 +219,7 @@ class SignUpView extends GetView<SignUpController> {
                     const SizedBox(
                       height: 20.0,
                     ),
-                    const SizedBox(height: 40.0, width: double.infinity),
+                    const SizedBox(height: 20.0, width: double.infinity),
                     Align(
                       alignment: Alignment.center,
                       child: MyElevatedButton(
