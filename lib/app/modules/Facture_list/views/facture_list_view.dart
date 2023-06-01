@@ -2,6 +2,7 @@ import 'package:colours/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/Models/Facture.dart';
+import '../../widgets/Pdf_Generator.dart';
 import '../controllers/facture_list_controller.dart';
 
 class FactureListView extends GetView<FactureListController> {
@@ -33,13 +34,11 @@ class FactureListView extends GetView<FactureListController> {
                       Text('Montant: ${facture.montant}'),
                     ],
                   ),
-                  onTap: () {
-                    controller.openPDF(context, facture);
-                  },
+                  onTap: () {},
                   trailing: IconButton(
                     icon: Icon(Icons.picture_as_pdf_outlined,color: Colours.navy,),
                     onPressed: (){
-                      controller.openPDF(context, facture);
+                      Get.to(()=> Pdf_Generator());
                     },
                   ),
                 ),

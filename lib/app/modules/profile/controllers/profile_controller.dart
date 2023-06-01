@@ -9,6 +9,8 @@ import '../../../Services/UserService.dart';
 import '../../../data/AppUrl.dart';
 import '../../../data/Models/User.dart';
 import '../../../data/UserDataStorage.dart';
+import '../bindings/profile_binding.dart';
+import '../views/profile_view.dart';
 
 class ProfileController extends GetxController {
   final count = 0.obs;
@@ -26,7 +28,6 @@ class ProfileController extends GetxController {
   var cin = ''.obs;
   var phone = ''.obs;
   var password = ''.obs;
-  final RefreshController _refreshController = RefreshController();
 
 
   @override
@@ -127,9 +128,10 @@ class ProfileController extends GetxController {
       };
       final response = await dio.put(url, data: body);
       if (response.statusCode == 200) {
+        UserDataStorage.userData.email=emailController.text.trim();
+        UserDataStorage.userData.phone=phoneController.text;
         Get.snackbar('Success', 'User data updated');
-        _refreshController.refreshCompleted();
-        Get.back();
+        
       }
     } catch (e) {
       print(e);

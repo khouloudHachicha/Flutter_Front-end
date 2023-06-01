@@ -58,7 +58,7 @@ class HomePageController extends GetxController {
     );
     if (response.statusCode == 200) {
       print(response.data);
-      Get.to(HomePageView(), binding: HomePageBinding());
+      Get.off(HomePageView(), binding: HomePageBinding());
     } else {
       Get.snackbar("Error", " no image selected",
           snackPosition: SnackPosition.BOTTOM,

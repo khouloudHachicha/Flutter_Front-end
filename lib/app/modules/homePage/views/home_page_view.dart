@@ -38,7 +38,7 @@ class HomePageView extends GetView<HomePageController> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           backgroundColor: Colours.navy,),),
-                          ElevatedButton(onPressed:()=>Get.back(),
+                          ElevatedButton(onPressed:()=>Get.off(HomePageView(), binding: HomePageBinding()),
                             child: Text("Cancel"),
                             style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

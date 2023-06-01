@@ -18,6 +18,7 @@ import '../../profile/views/profile_view.dart';
 import '../../users_list/bindings/users_list_binding.dart';
 import '../../users_list/views/users_list_view.dart';
 import '../../widgets/setting_group.dart';
+import '../../widgets/Pdf_Generator.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -84,11 +85,11 @@ class SettingsView extends GetView<SettingsController> {
                       color: Colors.white,
                     ),
                     onTap: () {
-                      Get.off(() =>  ProfileView(), binding: ProfileBinding());
+                      Get.to(() =>  ProfileView(), binding: ProfileBinding());
                     },
                   ),
                   Visibility(
-                    visible: UserDataStorage.userData!.role==['Super Admis','admis'],
+                    // visible: UserDataStorage.userData.role==['Super admin','admin'],
                     child: ListTile(
                       title: const Text(
                         "User list",
@@ -99,15 +100,15 @@ class SettingsView extends GetView<SettingsController> {
                         color: Colors.white,
                       ),
                       onTap: () {
-                        Get.off(() =>  const UsersListView(), binding: UsersListBinding());
+                        Get.to(() =>   UsersListView(), binding: UsersListBinding());
                       },
                     ),
                   ),
                   Visibility(
-                    visible: UserDataStorage.userData!.role==['Super Admis','Admis'],
+                    visible: UserDataStorage.userData.role==["Super admin","admin"],
                     child: ListTile(
                         title: const Text(
-                          "Invoice list",
+                          "Invoices",
                           style: TextStyle(color: Colors.white),
                         ),
                         leading: const Icon(
@@ -115,7 +116,7 @@ class SettingsView extends GetView<SettingsController> {
                           color: Colors.white,
                         ),
                         onTap: () {
-                          Get.off(() =>  ConsulterFactureView(),
+                          Get.to(() =>  ConsulterFactureView(),
                               binding: ConsulterFactureBinding());
                         },
                       ),
@@ -131,6 +132,7 @@ class SettingsView extends GetView<SettingsController> {
                     ),
                     onTap: () {
                       Get.off(() => LoginView(), binding: LoginBinding());
+                      // Get.to(()=>pdf());
                     },
                   ),
 
@@ -143,44 +145,4 @@ class SettingsView extends GetView<SettingsController> {
     );
   }
 }
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
 
-class _MyAppState extends State<MyApp> {
-  List<Map<String, dynamic>> userList = [
-    {"id": 1, "admin": false},
-    {"id": 2, "admin": true}
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('User List'),
-        ),
-        body: ListView.builder(
-          itemCount: userList.length,
-          itemBuilder: (context, index) {
-            final userData = userList[index];
-
-            return ListTile(
-              title: Text('ID: ${userData["id"]}'),
-              subtitle: Text('Admin: ${userData["admin"]}'),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    userList[index]["admin"] = !userData["admin"];
-                  });
-                },
-                child: Text('Toggle Admin'),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}

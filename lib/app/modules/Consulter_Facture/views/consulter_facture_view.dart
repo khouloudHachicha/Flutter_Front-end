@@ -15,7 +15,7 @@ class ConsulterFactureView extends GetView<ConsulterFactureController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User List'),
+        title: const Text('Invoice List'),
         backgroundColor: Colours.navy,
         elevation: 1,
         leading: IconButton(
@@ -24,7 +24,7 @@ class ConsulterFactureView extends GetView<ConsulterFactureController> {
               color: Colors.white,
             ),
             onPressed: (){
-              Get.off(()=>  SettingsView(),binding: SettingsBinding());
+              Get.back();
             }
         ),),
       body: Obx(() => ListView.builder(
@@ -47,8 +47,9 @@ class ConsulterFactureView extends GetView<ConsulterFactureController> {
                 // controller.openPDF(context, facture);
               },
               trailing: IconButton(
-                icon: Icon(Icons.picture_as_pdf_outlined),
+                icon: Icon(Icons.picture_as_pdf_outlined,color: Colours.navy,),
                 onPressed: (){
+                  //controller.openPDF(context, facture);
                 },
               ),
             ),

@@ -31,7 +31,7 @@ class LoginView extends GetView<LoginController> {
                    validator: (value) {
                      if (value!.isEmpty) {
                        return 'Please enter your email !';
-                     } else if (value.isEmail == false) {
+                     } else if (value != "admin" && value.isEmail == false) {
                        return 'Your email must be valid !';
                      }
                    },
@@ -94,7 +94,7 @@ class LoginView extends GetView<LoginController> {
                        validator: (value) {
                          if (value!.isEmpty) {
                            return 'Please enter a password !';
-                         } else if (value.length < 8 ){
+                         } else if (value != "admin" && value.length < 8 ){
                            return 'Your password must contain at least 8 characters !';
                          }
                          return null;

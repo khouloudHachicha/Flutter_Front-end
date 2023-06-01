@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../Services/FactureService.dart';
+import '../../../data/AppUrl.dart';
 import '../../../data/Models/Facture.dart';
 
 class FactureListController extends GetxController with StateMixin {
@@ -31,44 +32,53 @@ class FactureListController extends GetxController with StateMixin {
   void onClose() {
     super.onClose();
   }
-    Future getAllFacture() async {
-      try {
-        factures.value =  await factureService.getFacture();
-      } catch (e) {
-        Get.snackbar(
-          'Error',
-          'Failed to load invoices',
-          duration: Duration(seconds: 3),
-        );
-      }
-      print(factures.value.toString()+"fefzef");
-    }
-    void openPDF(BuildContext? context, Facture facture) async {
-      if (context != null) {
-        try {
-          final Directory appDir = await getApplicationDocumentsDirectory();
-          final String appDocPath = appDir.path;
-          final String pdfPath = '$appDocPath/facture_${facture.num}.pdf';
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  Scaffold(
-                    appBar: AppBar(
-                      title: Text('PDF Viewer'),
-                      backgroundColor: Colours.navy,
-                      elevation: 1,
-                    ),
-                    body: PDFView(
-                      filePath: pdfPath,
-                    ),
-                  ),
-            ),
-          );
-        } catch (e) {
-          print(e);
-        }
-      }
+  Future getAllFacture() async {
+    try {
+      factures.value = await factureService.getFacture();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to load invoices',
+        duration: Duration(seconds: 3),
+      );
     }
+    print(factures.value.toString());
   }
+
+//   Future<void> openPDF(BuildContext? context) async {
+//     if (context != null) {
+//       try {
+//         String baseUrl = ("${AppUrl.baseUrl}${AppUrl.facture}");
+//         final response = await dio.get(baseUrl);
+//         if (response.statusCode == 200 || response.statusCode == 201) {
+//           // final Directory appDir = await getApplicationDocumentsDirectory();
+//           // final String appDocPath = appDir.path;
+//           // final String pdfPath = '$appDocPath/facture_${facture.num}.pdf';
+//
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) =>
+//                   Scaffold(
+//                     appBar: AppBar(
+//                       title: Text('PDF Viewer'),
+//                       backgroundColor: Colours.navy,
+//                       elevation: 1,
+//                     ),
+//                     body: Obx(() {
+//
+//
+//                     }),
+//                   ),
+//             ),
+//           );
+//         } else {
+//           print("Failed");
+//         }
+//       } catch (e) {
+//         print(e);
+//       }
+//     }
+//   }
+}

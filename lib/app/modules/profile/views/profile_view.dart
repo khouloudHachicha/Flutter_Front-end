@@ -8,12 +8,11 @@ import '../../homePage/views/home_page_view.dart';
 import '../../widgets/background.dart';
 import '../../widgets/elevated_button.dart';
 import '../../widgets/text_field.dart';
+import '../bindings/profile_binding.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
     ProfileView({super.key});
-  final userData = GetStorage();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +28,7 @@ class ProfileView extends GetView<ProfileController> {
                 Background(
                 text: 'Profile',
                 onpressed:(){
-          Get.off(()=>const HomePageView(),binding: HomePageBinding());
+                  Get.back();
           },
           ),
                 Container(
@@ -102,7 +101,7 @@ class ProfileView extends GetView<ProfileController> {
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.phone,
                             validator: (value) {
-                              if (value!.isNum || value.length!=8) {
+                              if (value!.isNum || value.length==8) {
                                 return 'Your ID must be valid !';
                               }
                             },
@@ -134,7 +133,7 @@ class ProfileView extends GetView<ProfileController> {
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.phone,
                             validator: (value) {
-                               if (value!.isNum || value.length!=8) {
+                               if (value?.length != 8) {
                                 return 'Your phone number must be valid !';
                               }
                             },
@@ -166,12 +165,13 @@ class ProfileView extends GetView<ProfileController> {
                 ),
                 const SizedBox(height: 20),
                 Center(
-                  child: MyElevatedButton(
-                    text: 'Update',
-                    onPressed: () {
-                      controller.updateUser(UserDataStorage.userData.id.toString());
-                    },
-                  ),
+                    child: MyElevatedButton(
+                      text: 'Update',
+                      onPressed: () {
+                        controller.updateUser(UserDataStorage.userData.id.toString());
+
+                      },
+                    ),
                 ),
     ],
                 ),
