@@ -37,3 +37,4 @@ class ProfileController extends GetxController {
 
   void increment() => count.value++;
 }
+
